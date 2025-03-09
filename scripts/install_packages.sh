@@ -12,7 +12,7 @@ echo "📜 Logging output to $LOG_FILE"
 PACKAGES=(
     stow wget curl git unzip tmux fzf ripgrep zsh
     python3 python3-pip nodejs npm cargo clang
-    clang-format cmake make
+    clang-format cmake make xclip
 )
 
 # Mason.nvim packages (LSPs, formatters, linters)
