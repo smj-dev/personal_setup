@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+##########################################################################
+# Execute stow to create symlinks to the config file in the home folder
+##########################################################################
+
 # Function to check if Stow is installed
 check_stow() {
     if command -v stow &>/dev/null; then
@@ -82,9 +86,11 @@ run_stow() {
     echo "✅ Successfully ran Stow for $package"
 }
 
-# Run functions
+# Create 
 check_stow
 run_stow "nvim"
 run_stow "tmux"
 
+./scripts/install_packages.sh
 
+echo "Setup complete!"
