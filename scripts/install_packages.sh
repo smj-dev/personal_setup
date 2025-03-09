@@ -1,32 +1,82 @@
 #!/bin/bash
+set -euo pipefail
 
-# Detect OS (WSL, Debian, etc.)
-if grep -q Microsoft /proc/version; then
-    OS="WSL"
-elif [ -f "/etc/debian_version" ]; then
-    OS="Debian"
-else
-    OS="Unknown"
-fi
-
-# List of essential packages
 PACKAGES=(
     stow
     wget
     curl
     git
+    unzip
     tmux
     fzf
     ripgrep
     zsh
     python3
     python3-pip
-    tree
-    htop
+    python3.10-venv
+    nodejs
+    npm
+    cargo
+    clang
+    clang-format
+    cmake
+    make
+)
+
+MASON_PACKAGES=(
+    stylua                 # Lua formatter
+    lua-language-server    # LSP for Lua
+    rust-analyzer          # LSP for Rust
+    pyright                # LSP for Python
+    bash-language-server   # LSP for Bash
+    eslint_d               # Linter for JavaScript
+    prettier               # Formatter for JavaScript/TypeScript
+    clangd                 # LSP for C/C++
+    clang-format           # C/C++ Formating
+    cmakelang              # Cmake LSP
+    checkmake              # Cmake linter
 )
 
 install_neovim() {
     echo "Checking Neovim installation..."
+
+    # Get installed Neovim version (if available)
+    if command -v nvim &> /dev/null; then
+        INSTALLED_NVIM_VERSION=$(nvim --version | head -n 1 | sed -E 's/NVIM v//')
+        echo "Neovim installed: v$INSTALLED_NVIM_VERSION"
+    else
+        INSTALLED_NVIM_VERSION="0.0.0"  # Treat as not installed
+    fi
+
+    # Get latest available Neovim version from GitHub
+    LATEST_NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+
+    echo "Latest Neovim version: v$LATEST_NVIM_VERSION"
+
+    # If Neovim is already the latest version, exit early
+    if [ "$(printf '%s\n' "$LATEST_NVIM_VERSION" "$INSTALLED_NVIM_VERSION" | sort -V | head -n 1)" == "$LATEST_NVIM_VERSION" ]; then
+        echo "✅ Neovim is already up to date! Exiting early."
+        return 0
+    fi
+
+    # Prompt user before updating
+    echo "⚠️ A new Neovim version is available: v$LATEST_NVIM_VERSION"
+    read -p "Would you like to update Neovim? (y/N): " -r
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "🚀 Skipping Neovim update."
+        return 0
+    fi
+
+    echo "🔄 Updating Neovim to v$LATEST_NVIM_VERSION..."
+
+    # 🛑 NOW we check the OS, because an update is actually happening
+    if grep -q Microsoft /proc/version; then
+        OS="WSL"
+    elif [ -f "/etc/debian_version" ]; then
+        OS="Debian"
+    else
+        OS="Unknown"
+    fi
 
     # Detect system architecture
     ARCH=$(uname -m)
@@ -41,7 +91,11 @@ install_neovim() {
         exit 1
     fi
 
-    # Download and install Neovim
+    # Remove old version
+    sudo apt remove --purge neovim -y
+    sudo apt autoremove -y
+
+    # Download and install latest Neovim
     echo "Downloading Neovim for $ARCH..."
     NVIM_URL="https://github.com/neovim/neovim/releases/latest/download/${NVIM_FILE}"
 
@@ -60,11 +114,11 @@ install_neovim() {
     sudo mv "$NVIM_DIR" /usr/local/
     sudo ln -sf /usr/local/"$NVIM_DIR"/bin/nvim /usr/bin/nvim
 
-    # Cleanup: Remove tar file and extracted directory
+    # Cleanup
     rm -f "$NVIM_FILE"
     rm -rf "$NVIM_DIR"
 
-    echo "✅ Neovim installation complete and cleaned up!"
+    echo "✅ Neovim updated to v$LATEST_NVIM_VERSION!"
 }
 
 install_wsl_dependencies() {
@@ -81,6 +135,16 @@ install_wsl_dependencies() {
     fi
 }
 
+install_stylua() {
+    if ! command -v stylua &> /dev/null; then
+        echo "Installing stylua..."
+        cargo install stylua
+    else
+        echo "✅ stylua is already installed."
+    fi
+}
+
+
 install_neovim_plugins() {
     echo "📦 Installing Neovim plugins..."
 
@@ -93,12 +157,39 @@ install_neovim_plugins() {
         echo "✅ Lazy.nvim is already installed."
     fi
 
-    # Install plugins (runs in headless mode to avoid GUI issues)
+    # Install plugins (runs in headless mode)
     echo "Syncing Neovim plugins..."
-    nvim --headless "+Lazy! sync" +qall 2>/dev/null
+    nvim --headless "+Lazy! sync" +qall 2>/dev/null || {
+        echo "❌ Failed to sync Lazy.nvim plugins!"
+        exit 1
+    }
 
-    echo "✅ Neovim plugins installed!"
+    echo "📦 Installing Mason.nvim tools..."
+
+    MASON_INSTALL_CMD="MasonInstall ${MASON_PACKAGES[*]}"
+
+    nvim --headless -c 'lua require("mason-registry").refresh()' \
+                     -c "$MASON_INSTALL_CMD" \
+                     -c 'qall' 2>&1 | tee /tmp/mason_install.log
+
+    # Check for failures
+    if grep -q "failed to install" /tmp/mason_install.log; then
+        echo "❌ Some Mason.nvim packages failed to install! Check the log in /tmp/mason_install.log"
+        exit 1
+    fi
+
+    echo "✅ Neovim plugins and Mason tools installed successfully!"
 }
+
+
+# Detect OS (WSL, Debian, etc.)
+if grep -q Microsoft /proc/version; then
+    OS="WSL"
+elif [ -f "/etc/debian_version" ]; then
+    OS="Debian"
+else
+    OS="Unknown"
+fi
 
 install_packages() {
     echo "Updating package lists..."
@@ -114,10 +205,12 @@ install_packages() {
         fi
     done
 
-    # Install WSL-specific dependencies if needed
     if [[ "$OS" == "WSL" ]]; then
         install_wsl_dependencies
     fi
+
+    # Required dependency for install_neovim_plugins
+    install_stylua
 
     # Install Neovim and plugins
     install_neovim
