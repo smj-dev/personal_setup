@@ -18,6 +18,13 @@ vim.api.nvim_create_autocmd({"BufRead", "BufWritePre"}, {
   pattern = "*",
   command = "setlocal fileformat=unix"
 })
+-- This fixes the linendings when pasting from windows to wsl --
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("%s/\r//g")
+  end
+})
 
 -- Plugins to be installed with lazy --
 local opts = {}
