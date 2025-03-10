@@ -12,6 +12,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Use system clipboard --
+vim.opt.clipboard:append("unnamedplus")
+
 -- Plugins to be installed with lazy --
 local opts = {}
 
