@@ -14,6 +14,10 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Use system clipboard --
 vim.opt.clipboard:append("unnamedplus")
+vim.api.nvim_create_autocmd({"BufRead", "BufWritePre"}, {
+  pattern = "*",
+  command = "setlocal fileformat=unix"
+})
 
 -- Plugins to be installed with lazy --
 local opts = {}
