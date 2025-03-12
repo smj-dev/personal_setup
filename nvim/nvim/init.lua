@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 -- Plugins to be installed with lazy --
-local opts = {}
+--local opts = {}
 
 require("nvim-keybinds")
 require("lazy").setup("plugins")

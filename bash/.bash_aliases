@@ -23,3 +23,7 @@ alias gp='git push'
 alias gl='git log --oneline --graph --decorate --all'
 alias gco='git checkout'
 alias gb='git branch'
+
+
+# ======= addons =======
+alias cat='batcat --paging=never'
