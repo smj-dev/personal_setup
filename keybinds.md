@@ -66,7 +66,7 @@
 ## tmux
 
 ### Prefix Key
-- **Prefix Key:** `Ctrl+b` (or customized key if changed)
+- **Prefix Key:** `Ctrl+a`
 
 ### Session Management
 - **Create new session:** `tmux new-session -s session_name`
