@@ -18,11 +18,15 @@ vim.api.nvim_create_autocmd({"BufRead", "BufWritePre"}, {
   pattern = "*",
   command = "setlocal fileformat=unix"
 })
+
 -- This fixes the linendings when pasting from windows to wsl --
-vim.api.nvim_create_autocmd("InsertLeave", {
+vim.api.nvim_create_autocmd({"BufReadPost", "TextChanged"}, {
   pattern = "*",
   callback = function()
-    vim.cmd("%s/\r//g")
+    if vim.bo.fileformat == "dos" then
+      vim.bo.fileformat = "unix" -- Convert to Unix format
+    end
+    vim.cmd([[%s/\r//g]])
   end
 })
 

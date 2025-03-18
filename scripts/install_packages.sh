@@ -12,7 +12,7 @@ echo "📜 Logging output to $LOG_FILE"
 PACKAGES=(
     stow wget curl git unzip tmux fzf ripgrep zsh
     python3 python3-pip nodejs npm cargo clang
-    clang-format cmake make xclip bat
+    clang-format cmake make xclip bat luarocks
 )
 
 # Mason.nvim packages (LSPs, formatters, linters)
@@ -22,7 +22,9 @@ MASON_PACKAGES=(
     clang-format cmakelang checkmake
 )
 
-# ========================
+LUAROCKS_PACKAGES=("jsregexp")  # Add more packages as needed
+
+# ======================== 
 # 🛠 HELPER FUNCTIONS 🛠
 # ========================
 
@@ -92,6 +94,35 @@ install_neovim() {
     echo "✅ Neovim updated to v$LATEST_NVIM_VERSION!"
 }
 
+install_luarocks_packages() {
+    # Define the list of Luarocks packages
+
+    for package in "${LUAROCKS_PACKAGES[@]}"; do
+        # Check if the package is already installed
+        if luarocks list | grep -q "^$package"; then
+            echo "✔ $package is already installed."
+        else
+            echo "⏳ Installing $package via Luarocks..."
+            if luarocks install "$package"; then
+                echo "✔ Successfully installed $package."
+            else
+                echo "❌ Failed to install $package. Check your Luarocks setup." >&2
+            fi
+        fi
+    done
+
+    # Ensure LUA_PATH and LUA_CPATH are set
+    if ! echo "$LUA_PATH" | grep -q "$HOME/.luarocks/share/lua/5.1"; then
+        echo 'export LUA_PATH="$HOME/.luarocks/share/lua/5.1/?.lua;$LUA_PATH"' >> ~/.bashrc
+        echo 'export LUA_CPATH="$HOME/.luarocks/lib/lua/5.1/?.so;$LUA_CPATH"' >> ~/.bashrc
+        echo "🔄 Added LUA_PATH and LUA_CPATH to ~/.bashrc"
+        source ~/.bashrc
+    fi
+
+    echo "🚀 All requested Luarocks packages are installed!"
+}
+
+
 install_neovim_plugins() {
     echo "📦 Installing Neovim plugins..."
     
@@ -119,5 +150,6 @@ install_neovim_plugins() {
 install_packages
 install_neovim
 install_neovim_plugins
+install_luarocks_packages
 
 echo "🎉 Setup complete! Logs saved to $LOG_FILE"
