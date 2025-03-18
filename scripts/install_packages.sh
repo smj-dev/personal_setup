@@ -41,14 +41,23 @@ run_command() {
 
 install_packages() {
     echo "📦 Installing system packages..."
-    sudo apt update -y >> "$LOG_FILE" 2>&1
+
+    UPDATE_OUTPUT=$(sudo apt-get -s update 2>&1 || true)
+    # Check if the output contains any indication that updates were fetched
+    if echo "$UPDATE_OUTPUT" | grep -q "Hit:" || echo "$UPDATE_OUTPUT" | grep -q "Ign:"; then
+        echo "Apt updates available, running apt update..."
+        sudo apt update -y >> "$LOG_FILE" 2>&1
+    else
+        echo "No updates available, skipping apt update."
+    fi
 
     for package in "${PACKAGES[@]}"; do
-        if ! dpkg -l | grep -q "^ii  $package "; then
-            echo "Installing $package..."
-            run_command "sudo apt install -y $package"
+        # Check if package is installed using dpkg-query
+        if dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q "installed"; then
+            echo "✅ $package is already installed."
         else
-            echo "✅ $package is already installed." >> "$LOG_FILE"
+            echo "Installing $package..."
+            sudo apt install -y "$package"
         fi
     done
 }
@@ -96,7 +105,6 @@ install_neovim() {
 
 install_luarocks_packages() {
     # Define the list of Luarocks packages
-
     for package in "${LUAROCKS_PACKAGES[@]}"; do
         # Check if the package is already installed
         if luarocks list | grep -q "^$package"; then
@@ -131,7 +139,7 @@ install_neovim_plugins() {
         echo "Cloning Lazy.nvim..." >> "$LOG_FILE"
         run_command "git clone --filter=blob:none https://github.com/folke/lazy.nvim.git --branch=stable $NVIM_LAZY_PATH"
     else
-        echo "✅ Lazy.nvim is already installed." >> "$LOG_FILE"
+        echo "✅ Lazy.nvim is already installed."
     fi
 
     run_command "nvim --headless '+Lazy! sync' +qall"

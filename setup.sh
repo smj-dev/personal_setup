@@ -116,21 +116,55 @@ run_stow() {
     echo "✅ Successfully ran Stow for $package!"
 }
 
+setup_tmux() {
+    echo "Setting up tmux configuration..."
+    run_stow tmux
+
+    # Detect WSL and configure clipboard accordingly
+    if grep -qi microsoft /proc/version; then
+        echo "Detected WSL: Using Windows clipboard integration."
+        CLIP_CMD="clip.exe"
+    else
+        echo "Detected native Linux: Using xclip for clipboard integration."
+        CLIP_CMD="xclip -selection clipboard"
+    fi
+
+    # Append clipboard settings to tmux.conf
+    echo "Configuring tmux-yank with clipboard integration..."
+    cat <<EOF >> ~/.tmux.conf
+
+# tmux-yank settings (Added via setup script)
+set -g @yank_action 'printf %s | $CLIP_CMD'
+EOF
+
+    # Reload tmux configuration
+    tmux source ~/.tmux.conf
+
+    echo "tmux base setup complete!"
+}
+
 # ========================
 # 🛠 RUN SETUP FUNCTIONS 🛠
 # ========================
 
-check_and_install_stow
-run_stow "nvim"
-run_stow "tmux"
-run_stow "bash"
-source ~/.bashrc
 
 if [ "$INSTALL_PACKAGES" = true ]; then
     echo "📦 Running full setup, including package installation..."
     ./scripts/install_packages.sh
+    
+    # Run the tmux plugin setup script
+    ./scripts/setup_tmux_plugins.sh
 else
     echo "🔄 Skipping package installation."
 fi
+
+check_and_install_stow
+
+run_stow "nvim"
+
+setup_tmux
+
+run_stow "bash"
+source ~/.bashrc
 
 echo "🎉 Setup complete! Logs saved to $LOG_FILE"
