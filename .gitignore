@@ -1,0 +1,48 @@
+# Ignore log files and log directory
+logs/
+logs/**
+
+# Ignore temporary and backup files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.backup
+
+# Ignore Neovim-specific cache files
+.cache/
+.nvimg/
+session.vim
+undo/
+view/
+shada/
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled or binary files
+*.o
+*.out
+*.exe
+*.bin
+
+# Ignore Python virtual environments
+venv/
+.env/
+__pycache__/
+*.pyc
+
+# Ignore package manager files
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Ignore generated files from Neovim plugins
+.lazy/
+.mason/
+site/
+
+nvim/nvim/lazy-lock.json
