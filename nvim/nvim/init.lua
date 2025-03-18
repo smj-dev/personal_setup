@@ -12,24 +12,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Use system clipboard --
-vim.opt.clipboard:append("unnamedplus")
-vim.api.nvim_create_autocmd({"BufRead", "BufWritePre"}, {
-  pattern = "*",
-  command = "setlocal fileformat=unix"
-})
-
--- This fixes the linendings when pasting from windows to wsl --
-vim.api.nvim_create_autocmd({"BufReadPost", "TextChanged"}, {
-  pattern = "*",
-  callback = function()
-    if vim.bo.fileformat == "dos" then
-      vim.bo.fileformat = "unix" -- Convert to Unix format
-    end
-    vim.cmd([[%s/\r//g]])
-  end
-})
-
 -- Plugins to be installed with lazy --
 --local opts = {}
 
