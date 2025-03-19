@@ -35,4 +35,23 @@ fi
 echo "Installing tmux plugins via TPM..."
 "$TMUX_PLUGIN_DIR/tpm/bin/install_plugins" >> "$LOG_FILE" 2>&1
 
-echo "tmux plugin setup complete!"
+echo "Setting up tmux configuration..."
+
+# Detect WSL and configure clipboard accordingly
+if grep -qi microsoft /proc/version; then
+    echo "Detected WSL: Using Windows clipboard integration."
+    CLIP_CMD="clip.exe"
+else
+    echo "Detected native Linux: Using xclip for clipboard integration."
+    CLIP_CMD="xclip -selection clipboard"
+fi
+
+# Append clipboard settings to tmux.conf
+echo "Configuring tmux-yank with clipboard integration..."
+cat <<EOF >> ~/.tmux.conf
+
+# tmux-yank settings (Added via setup script)
+set -g @yank_action 'printf %s | $CLIP_CMD'
+EOF
+
+echo "✅ tmux base setup complete!"

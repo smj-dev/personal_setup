@@ -9,59 +9,51 @@ echo "📜 Logging output to $LOG_FILE"
 # ========================
 # 🛠 ARGUMENT PARSING 🛠
 # ========================
-
-INSTALL_PACKAGES=false
-
-# Check if the argument --install-packages was provided
-if [[ $# -gt 0 && "$1" == "--install-packages" ]]; then
-    INSTALL_PACKAGES=true
-fi
-
-setup_tmux() {
-    echo "Setting up tmux configuration..."
-
-    # Detect WSL and configure clipboard accordingly
-    if grep -qi microsoft /proc/version; then
-        echo "Detected WSL: Using Windows clipboard integration."
-        CLIP_CMD="clip.exe"
-    else
-        echo "Detected native Linux: Using xclip for clipboard integration."
-        CLIP_CMD="xclip -selection clipboard"
-    fi
-
-    # Append clipboard settings to tmux.conf
-    echo "Configuring tmux-yank with clipboard integration..."
-    cat <<EOF >> ~/.tmux.conf
-
-# tmux-yank settings (Added via setup script)
-set -g @yank_action 'printf %s | $CLIP_CMD'
-EOF
-
-    # Reload tmux configuration
-    tmux source ~/.tmux.conf
-
-    echo "tmux base setup complete!"
+usage() {
+    echo "Usage: $(basename "$0") [packages|stow|neovim|all]"
+    exit 1
 }
 
-# ========================
-# 🛠 RUN SETUP FUNCTIONS 🛠
-# ========================
-
-
-if [ "$INSTALL_PACKAGES" = true ]; then
-    echo "📦 Running full setup, including package installation..."
-    ./scripts/install_packages.sh
-    
-    # Run the tmux plugin setup script
-    ./scripts/setup_tmux_plugins.sh
-else
-    echo "🔄 Skipping package installation."
+# Ensure at least one argument is passed
+if [[ $# -eq 0 ]]; then
+    usage
 fi
 
+# Process each argument
+for arg in "$@"; do
+    case "$arg" in
+        packages)
+            echo "📦 Installing packages..."
+            bash "$REPO_DIR/scripts/install_packages.sh"
+            ;;
+        tmux)
+            echo "Installing tmux config"
+            bash "$REPO_DIR/scripts/stow.sh" "tmux"
+            bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
+            ;;
+        neovim)
+            echo "Setting up Neovim..."
+            bash "$REPO_DIR/scripts/stow.sh" "nvim"
+            bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"
+            ;;
+        bash)
+            echo "Setting up Bash..."
+            bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash"
+            source ~/.bashrc
+            ;;
+        all)
+            echo "⚙️  Running full setup..."
+            bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash"
 
-bash "$(dirname "$0")/scripts/stow.sh" "tmux" "nvim" "bash"
-setup_tmux
-
-source ~/.bashrc
+            bash "$REPO_DIR/scripts/packages.sh"
+            bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"
+            bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
+            ;;
+        *)
+            echo "❌ Unknown option: $arg"
+            usage
+            ;;
+    esac
+done
 
 echo "🎉 Setup complete! Logs saved to $LOG_FILE"
