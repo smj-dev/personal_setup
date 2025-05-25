@@ -106,3 +106,4 @@ export VISUAL=vim
 
 export LUA_PATH="$HOME/.luarocks/share/lua/5.1/?.lua;$LUA_PATH"
 export LUA_CPATH="$HOME/.luarocks/lib/lua/5.1/?.so;$LUA_CPATH"
+export JUCE_AUDIODEVICETYPE=PULSE

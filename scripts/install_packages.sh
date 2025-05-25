@@ -29,6 +29,8 @@ PACKAGES=(
     liblua5.1-0-dev
     unzip
     libgtk-3-dev
+    webkit2gtk-4.0-dev 
+    alsa-utils  
     #luarocks luarocks installation is broken for wsl.
 )
 

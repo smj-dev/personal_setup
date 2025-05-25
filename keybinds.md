@@ -21,8 +21,9 @@
 - **Go to last line:** `G`
 
 ### Searching
-- **Fuzzy find files:** `<Space>f`
-- **Grep in file:** `<Space>g`
+- **Fuzzy find files:** `<C-p>` or `<Space>ff`
+- **Grep in project:** `<Space>fg`
+- **Jump to symbol in file:** `<Space>fs`
 
 *Default Neovim Searching:*
 - **Search forward:** `/`
