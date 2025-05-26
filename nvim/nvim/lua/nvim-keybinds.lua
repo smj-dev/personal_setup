@@ -1,5 +1,9 @@
 -- Vim keybinds --
 
+vim.api.nvim_create_user_command("ReloadKeybinds", function()
+  loadfile(vim.fn.stdpath("config") .. "/lua/nvim-keybinds.lua")()
+end, {})
+
 -- Fix tabs --
 vim.opt.tabstop=2
 vim.opt.softtabstop=2
@@ -28,6 +32,12 @@ vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
 vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
+
+-- navigate in insert mode --
+vim.keymap.set('i', '<M-h>', '<Left>', { desc = 'Move left in insert mode'})
+vim.keymap.set('i', '<M-l>', '<Right>', { desc = 'Move left in insert mode'})
+vim.keymap.set('i', '<M-j>', '<Down>', { desc = 'Move left in insert mode'})
+vim.keymap.set('i', '<M-k>', '<Up>', { desc = 'Move left in insert mode'})
 
 vim.schedule(function()
   local ok, builtin = pcall(require, "telescope.builtin")

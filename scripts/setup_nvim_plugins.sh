@@ -29,8 +29,8 @@ install_neovim() {
         INSTALLED_NVIM_VERSION="0.0.0"
     fi
 
-    LATEST_NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-
+    #LATEST_NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    LATEST_NVIM_VERSION="0.10.4"
     if [ "$(printf '%s\n' "$LATEST_NVIM_VERSION" "$INSTALLED_NVIM_VERSION" | sort -V | head -n 1)" == "$LATEST_NVIM_VERSION" ]; then
         echo "✅ Neovim is up to date!"
         return 0
@@ -53,6 +53,7 @@ install_neovim() {
     run_command "sudo apt autoremove -y"
     run_command "curl -L -O https://github.com/neovim/neovim/releases/latest/download/${NVIM_FILE}"
     run_command "tar xzvf $NVIM_FILE"
+    run_command "sudo rm -rf /usr/local/$NVIM_DIR"
     run_command "sudo mv $NVIM_DIR /usr/local/"
     run_command "sudo ln -sf /usr/local/$NVIM_DIR/bin/nvim /usr/bin/nvim"
     run_command "rm -f $NVIM_FILE"

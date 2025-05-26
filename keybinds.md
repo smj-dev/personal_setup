@@ -20,6 +20,12 @@
 - **Go to first line:** `gg`
 - **Go to last line:** `G`
 
+#### Navigation in insert mode
+- **Move left:** `<C-h`
+- **Move down:** `j`
+- **Move up:** `k`
+- **Move right:** `l`
+
 ### Searching
 - **Fuzzy find files:** `<C-p>` or `<Space>ff`
 - **Grep in project:** `<Space>fg`
@@ -61,6 +67,10 @@
 *Default Neovim Completions:*
 - **Trigger completion:** `<C-n>` (next), `<C-p>` (previous)
 - **Confirm completion:** `<Enter>`
+
+### Commenting
+- **Toggle line comment (normal mode):** 'gcc'
+- **Toggle line comment (visual mode):** 'gc'
 
 ---
 
