@@ -6,8 +6,6 @@
 - **Leader Key:** `<Space>`
 
 ### Navigation
-- **Go to beginning of line:** `H`
-- **Go to end of line:** `L`
 
 *Default Neovim Navigation:*
 - **Move left:** `h`
@@ -20,11 +18,30 @@
 - **Go to first line:** `gg`
 - **Go to last line:** `G`
 
+#### Larger movements
+- **Go to beginning of line:** `H`
+- **Go to end of line:** `L`
+- **Scroll up:** `K`
+- **Scroll down:** `J`
+
+#### Jumplist
+- **Jump to previous location:** `<C-o>`
+- **Jump to next location:** `<C-i>`
+
 #### Navigation in insert mode
-- **Move left:** `<C-h`
-- **Move down:** `j`
-- **Move up:** `k`
-- **Move right:** `l`
+- **Move left:** `Alt + h`
+- **Move down:** `Alt + j`
+- **Move up:** `Alt + k`
+- **Move right:** `Alt + l`
+
+### Visual Multi
+- **Start block/column multi-cursor mode:** `<Space>m`
+- **Add next match of word under cursor:** `<C-d>`
+- **Select all matches of word under cursor:** `<Space>a`
+- **Add next match of visual selection:** `<Space>v`
+- **Select all matches of visual selection:** `<Space>A`
+- **Skip current match:** `<Space>q`
+- **Remove last match:** `<Space>Q`
 
 ### Searching
 - **Fuzzy find files:** `<C-p>` or `<Space>ff`
@@ -46,6 +63,7 @@
 ### LSP (Language Server Protocol)
 - **Show definition:** `K`
 - **Code action:** `<Space>ca`
+- **Rename symbol:** `<Space>rn`
 - **Go to definition:** `gd`
 - **Show hover information:** `K`
 - **Go to declaration:** `gD`
@@ -72,12 +90,18 @@
 - **Toggle line comment (normal mode):** 'gcc'
 - **Toggle line comment (visual mode):** 'gc'
 
+### Editing
+- *Create line above (with entering insert mode)*:** 'O'
+- *Create line below (with entering insert mode)*:** 'o'
+
+- *Create line above (without entering insert mode)*:** '<space>O'
+- *Create line below (without entering insert mode)*:** '<space>o'
 ---
 
 ## tmux
 
 ### Prefix Key
-- **Prefix Key:** `Ctrl+a`
+- **Prefix Key:** `Ctrl+b`
 
 ### Session Management
 - **Create new session:** `tmux new-session -s session_name`

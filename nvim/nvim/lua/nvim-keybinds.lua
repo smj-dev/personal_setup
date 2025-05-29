@@ -26,6 +26,13 @@ vim.g.mapleader = ' '
 -- Set navigations --
 vim.keymap.set("n", "H", "0")
 vim.keymap.set("n", "L", "$")
+vim.keymap.set("n", "K", "<C-u>")
+vim.keymap.set("n", "J", "<C-d>")
+
+
+-- Add lines --
+vim.keymap.set("n", "<leader>o","call append(line('.'),'')<CR>")
+vim.keymap.set("n", "<leader>O","call append(line('.') -1,'')<CR>")
 
 -- Navigate vim panes in nvim --
 vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')

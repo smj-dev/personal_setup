@@ -11,5 +11,8 @@ To add new packages to the setup script, just add the name of the apt package to
 the packages or mason_packages list in 
 ```scripts/install_packages.sh```
 
+To update the settings without installing anything just stow the particular setup:
+```sctipts/stow.sh [nvim|tmux|bash]```
 ## Additional Documentation
 See [keybinds.md](keybinds.md) for keybinds.
+
