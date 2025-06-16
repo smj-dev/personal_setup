@@ -4,6 +4,8 @@ vim.api.nvim_create_user_command("ReloadKeybinds", function()
   loadfile(vim.fn.stdpath("config") .. "/lua/nvim-keybinds.lua")()
 end, {})
 
+vim.keymap.set('n', '.', ':', { noremap = true })
+
 -- Fix tabs --
 vim.opt.tabstop=2
 vim.opt.softtabstop=2
@@ -42,9 +44,16 @@ vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
 
 -- navigate in insert mode --
 vim.keymap.set('i', '<M-h>', '<Left>', { desc = 'Move left in insert mode'})
-vim.keymap.set('i', '<M-l>', '<Right>', { desc = 'Move left in insert mode'})
-vim.keymap.set('i', '<M-j>', '<Down>', { desc = 'Move left in insert mode'})
-vim.keymap.set('i', '<M-k>', '<Up>', { desc = 'Move left in insert mode'})
+vim.keymap.set('i', '<M-l>', '<Right>', { desc = 'Move right in insert mode'})
+vim.keymap.set('i', '<M-j>', '<Down>', { desc = 'Move down in insert mode'})
+vim.keymap.set('i', '<M-k>', '<Up>', { desc = 'Move up in insert mode'})
+
+vim.keymap.set('i', '<M-K>', '<C-o>b', { desc = 'Move word left in insert mode'})
+vim.keymap.set('i', '<M-L>', '<C-o>w', { desc = 'Move word right in insert mode'})
+vim.keymap.set('i', '<M-J>', '<C-o><C-d>', { desc = 'Move half-page down in insert mode'})
+vim.keymap.set('i', '<M-J>', '<C-o><C-u>', { desc = 'Move half-page up in insert mode'})
+
+vim.keymap.set('i', '<M-BS>', '<C-w>', { desc = 'Delete previous word in insert mode'})
 
 vim.schedule(function()
   local ok, builtin = pcall(require, "telescope.builtin")
