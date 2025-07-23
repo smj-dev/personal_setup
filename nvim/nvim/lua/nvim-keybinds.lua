@@ -26,15 +26,34 @@ vim.opt.scrolloff = 8
 vim.g.mapleader = ' '
 
 -- Set navigations --
-vim.keymap.set("n", "H", "0")
-vim.keymap.set("n", "L", "$")
-vim.keymap.set("n", "K", "<C-u>")
-vim.keymap.set("n", "J", "<C-d>")
-
+local modes = { "n", "v", "x", "o" }
+vim.keymap.set(modes, "H", "0", { noremap = true })
+vim.keymap.set(modes, "L", "$", { noremap = true })
+vim.keymap.set(modes, "K", "<C-u>", { noremap = true })
+vim.keymap.set(modes, "J", "<C-d>", { noremap = true })
 
 -- Add lines --
-vim.keymap.set("n", "<leader>o","call append(line('.'),'')<CR>")
-vim.keymap.set("n", "<leader>O","call append(line('.') -1,'')<CR>")
+vim.keymap.set("n", "<leader>o", [[:call append(line('.'), '')<CR>]])
+vim.keymap.set("n", "<leader>O", [[:call append(line('.') - 1, '')<CR>]])
+
+local move_opts = { noremap = true, silent = true }
+
+-- Move line up/down in normal mode (preserve cursor)
+vim.keymap.set("n", "<C-M-k>", "mz:m-2<CR>`z==", move_opts)
+vim.keymap.set("n", "<C-M-j>", "mz:m+1<CR>`z==", move_opts)
+
+-- Move selection up/down in visual mode (preserve selection)
+vim.keymap.set("v", "<C-M-k>", ":m '<-2<CR>gv=gv", move_opts)
+vim.keymap.set("v", "<C-M-j>", ":m '>+1<CR>gv=gv", move_opts)
+
+-- Indent in normal mode
+vim.keymap.set("n", "<C-M-h>", "<<", move_opts)
+vim.keymap.set("n", "<C-M-l>", ">>", move_opts)
+
+-- Indent in visual mode (reselect after shift)
+vim.keymap.set("v", "<C-M-h>", "<gv", move_opts)
+vim.keymap.set("v", "<C-M-l>", ">gv", move_opts)
+
 
 -- Navigate vim panes in nvim --
 vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')

@@ -99,7 +99,7 @@ esac
 
 # Add custom paths
 export PATH="$PATH:/opt/nvim/"
-export PATH="$PATH:/home/sebastianj/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 export EDITOR=vim
 export VISUAL=vim
