@@ -3,6 +3,14 @@ set -euo pipefail
 
 source "$(dirname "$0")/constants.sh"
 
+# Detect distribution
+if [[ -f /etc/os-release ]]; then
+    source /etc/os-release
+else
+    echo "❌ Unable to determine Linux distribution."
+    exit 1
+fi
+
 # Mason.nvim packages (LSPs, formatters, linters)
 MASON_PACKAGES=(
     stylua
@@ -29,7 +37,6 @@ install_neovim() {
         INSTALLED_NVIM_VERSION="0.0.0"
     fi
 
-    #LATEST_NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
     LATEST_NVIM_VERSION="0.10.4"
     if [ "$(printf '%s\n' "$LATEST_NVIM_VERSION" "$INSTALLED_NVIM_VERSION" | sort -V | head -n 1)" == "$LATEST_NVIM_VERSION" ]; then
         echo "✅ Neovim is up to date!"
@@ -49,8 +56,14 @@ install_neovim() {
         exit 1
     fi
 
-    run_command "sudo apt remove --purge neovim -y"
-    run_command "sudo apt autoremove -y"
+    if [[ "$ID" == "almalinux" || "$ID" == "rhel" || "$ID" == "centos" ]]; then
+        run_command "sudo dnf remove -y neovim"
+        run_command "sudo dnf autoremove -y"
+    else
+        run_command "sudo apt remove --purge neovim -y"
+        run_command "sudo apt autoremove -y"
+    fi
+
     run_command "curl -L -O https://github.com/neovim/neovim/releases/latest/download/${NVIM_FILE}"
     run_command "tar xzvf $NVIM_FILE"
     run_command "sudo rm -rf /usr/local/$NVIM_DIR"
@@ -63,9 +76,18 @@ install_neovim() {
 }
 
 install_luarocks_packages() {
-    # Define the list of Luarocks packagesgit 
+    # Ensure luarocks is available
+    if ! command -v luarocks &>/dev/null; then
+        echo "📦 Luarocks not found, attempting to install..."
+
+        if [[ "$ID" == "almalinux" || "$ID" == "rhel" || "$ID" == "centos" ]]; then
+            run_command "sudo dnf install -y luarocks"
+        else
+            run_command "sudo apt install -y luarocks"
+        fi
+    fi
+
     for package in "${LUAROCKS_PACKAGES[@]}"; do
-        # Check if the package is already installed
         if luarocks list | grep -q "^$package"; then
             echo "✔ $package is already installed."
         else
@@ -78,8 +100,7 @@ install_luarocks_packages() {
         fi
     done
 
-    # Ensure LUA_PATH and LUA_CPATH are set
-    if ! echo "$LUA_PATH" | grep -q "$HOME/.luarocks/share/lua/5.1"; then
+    if ! echo "${LUA_PATH:-}" | grep -q "$HOME/.luarocks/share/lua/5.1"; then
         echo 'export LUA_PATH="$HOME/.luarocks/share/lua/5.1/?.lua;$LUA_PATH"' >> ~/.bashrc
         echo 'export LUA_CPATH="$HOME/.luarocks/lib/lua/5.1/?.so;$LUA_CPATH"' >> ~/.bashrc
         echo "🔄 Added LUA_PATH and LUA_CPATH to ~/.bashrc"
@@ -88,7 +109,6 @@ install_luarocks_packages() {
 
     echo "🚀 All requested Luarocks packages are installed!"
 }
-
 
 install_neovim_plugins() {
     echo "📦 Installing Neovim plugins..."
@@ -112,4 +132,4 @@ install_neovim_plugins() {
 
 install_neovim
 install_neovim_plugins
-#install_luarocks_packages TODO luarocks installation on WSL seems to be broken. 
+#install_luarocks_packages # TODO: luarocks setup on WSL may be broken

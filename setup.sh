@@ -10,7 +10,7 @@ echo "📜 Logging output to $LOG_FILE"
 # 🛠 ARGUMENT PARSING 🛠
 # ========================
 usage() {
-    echo "Usage: $(basename "$0") [packages|stow|neovim|all]"
+    echo "Usage: $(basename "$0") [packages|tmux|neovim|bash|all]"
     exit 1
 }
 
@@ -38,14 +38,15 @@ for arg in "$@"; do
             ;;
         bash)
             echo "Setting up Bash..."
-            bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash"
+            bash "$REPO_DIR/scripts/stow.sh" "bash"
             source ~/.bashrc
+            source ~/.bash_aliases
             ;;
         all)
             echo "⚙️  Running full setup..."
             bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash"
 
-            bash "$REPO_DIR/scripts/packages.sh"
+            bash "$REPO_DIR/scripts/install_packages.sh"
             bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"
             bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
             ;;

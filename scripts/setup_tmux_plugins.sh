@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LOG_FILE="$HOME/personal_setup/setup.log"
+source "$(dirname "$0")/constants.sh"
 
 TMUX_PLUGIN_DIR="$HOME/.tmux/plugins"
 
