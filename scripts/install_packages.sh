@@ -17,6 +17,7 @@ COMMON_PACKAGES=(
     wget
     curl
     git
+    gitk
     unzip
     tmux
     fzf
