@@ -44,5 +44,5 @@ package-lock.json
 .lazy/
 .mason/
 site/
-
+lazy-lock.json
 nvim/nvim/lazy-lock.json
