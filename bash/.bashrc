@@ -90,13 +90,6 @@ update_prompt() {
 # Set the dynamic prompt before every command
 PROMPT_COMMAND=update_prompt
 
-# Set terminal title in xterm/rxvt
-case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u: \w\a\]$PS1"
-        ;;
-esac
-
 # Add custom paths
 export PATH="$PATH:/opt/nvim/"
 export PATH="$PATH:$HOME/.local/bin"
