@@ -6,11 +6,8 @@ source "$(dirname "$0")/scripts/constants.sh"
 > "$LOG_FILE"  # Reset log file at the beginning
 echo "📜 Logging output to $LOG_FILE"
 
-# ========================
-# 🛠 ARGUMENT PARSING 🛠
-# ========================
 usage() {
-    echo "Usage: $(basename "$0") [packages|tmux|neovim|bash|all]"
+    echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|all]"
     exit 1
 }
 
@@ -31,7 +28,7 @@ for arg in "$@"; do
             bash "$REPO_DIR/scripts/stow.sh" "tmux"
             bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
             ;;
-        neovim)
+        nvim)
             echo "Setting up Neovim..."
             bash "$REPO_DIR/scripts/stow.sh" "nvim"
             bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"

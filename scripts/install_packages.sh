@@ -3,6 +3,15 @@ set -euo pipefail
 
 source "$(dirname "$0")/constants.sh"
 
+# NodeSource install helper
+setup_nodesource_repo() {
+    if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
+        run_command "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -"
+    else
+        run_command "curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -"
+    fi
+}
+
 # Determine distribution
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
@@ -62,8 +71,7 @@ if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
         sudo apt update -y >> "$LOG_FILE" 2>&1
     fi
 
-    # Adding NodeSource APT repo for Node.js 18
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - >> "$LOG_FILE" 2>&1
+    setup_nodesource_repo
 
     for package in "${COMMON_PACKAGES[@]}" "${DEBIAN_PACKAGES[@]}"; do
         if dpkg -s "$package" 2>/dev/null | grep -q "Status: install ok installed"; then
@@ -77,20 +85,18 @@ if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
 elif [[ "$ID" == "almalinux" || "$ID" == "rhel" || "$ID" == "centos" ]]; then
     echo "📦 Running dnf update..."
     sudo dnf check-update || true
-    sudo dnf -y update >> "$LOG_FILE" 2>&1
+    run_command "sudo dnf -y update"
 
-    # Adding NodeSource DNF repo for Node.js 18
-    curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash - >> "$LOG_FILE" 2>&1
+    setup_nodesource_repo
 
     for package in "${COMMON_PACKAGES[@]}" "${RHEL_PACKAGES[@]}"; do
         if rpm -q "$package" &>/dev/null; then
             echo "✅ $package is already installed."
         else
             echo "Installing $package..."
-            sudo dnf install -y "$package" >> "$LOG_FILE" 2>&1
+            run_command "sudo dnf install -y "$package"" 
         fi
     done
-
 else
     echo "❌ Unsupported distribution: $ID"
     exit 1

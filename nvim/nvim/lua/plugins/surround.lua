@@ -1,7 +1,7 @@
 return {
   "kylechui/nvim-surround",
   version = "*",
-  event = "InsertEndter",
+  event = "InsertEnter",
   config = function()
     require("nvim-surround").setup()
   end
