@@ -48,12 +48,11 @@ Running without arguments will show usage instructions.
   ```bash
   ./scripts/generate_start_scripts.sh \
     --session MySession \
-    --output ~/bin \
-    --repo personal_setup=~/repos/personal_setup \
-    --repo monophon=~/repos/monophon
+    --output <output file location> \
+    --repo <repo name>=<repo path> \
   ```
 
-  The generated script will create or attach to a tmux session with one `nvim` and one `shell` window for each repository.
+  The ´´--repo´´ argument can be given multiple times. The generated script will create or attach to a tmux session with one `nvim` and one `shell` window for each repository.
 
 ---
 
