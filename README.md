@@ -10,7 +10,7 @@ It includes scripts to install packages, configure plugins, and manage sessions.
 Clone the repository and run the setup script:
 
 ```bash
-git clone https://github.com/your-username/personal_setup.git
+git clone https://github.com/smj-dev/personal_setup.git
 cd personal_setup
 ./setup.sh [packages|tmux|nvim|bash|gitk|all]
 ```
