@@ -7,12 +7,12 @@ It includes scripts to install packages, configure plugins, and manage sessions.
 
 ## Usage
 
-Clone the repository and run the setup script:
+Clone the repository and run the setup script. To install everything run:
 
 ```bash
 git clone https://github.com/smj-dev/personal_setup.git
 cd personal_setup
-./setup.sh [packages|tmux|nvim|bash|gitk|all]
+./setup.sh all
 ```
 
 Options:
