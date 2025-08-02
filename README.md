@@ -52,7 +52,7 @@ Running without arguments will show usage instructions.
     --repo <repo name>=<repo path> \
   ```
 
-  The ´´--repo´´ argument can be given multiple times. The generated script will create or attach to a tmux session with one `nvim` and one `shell` window for each repository.
+  The ´--repo´ argument can be given multiple times. The generated script will create or attach to a tmux session with one `nvim` and one `shell` window for each repository.
 
 ---
 
