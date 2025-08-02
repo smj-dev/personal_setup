@@ -19,22 +19,18 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
-      -- C++ lsp confin --
+
       lspconfig.clangd.setup({})
-      -- Lua lsp congig --
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.html.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-      })
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename"})
+      lspconfig.ts_ls.setup({ capabilities = capabilities })
+      lspconfig.html.setup({ capabilities = capabilities })
+      lspconfig.lua_ls.setup({ capabilities = capabilities })
+
+      -- LSP keymaps
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP Hover" })
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP Goto Definition" })
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
+ 
     end,
   },
 }

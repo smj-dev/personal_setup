@@ -1,8 +1,10 @@
 -- Keybinds & Config --
-
 -- Leader
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+-- Remap :
+vim.keymap.set('n', '.', ':', { noremap = true })
 
 -- Prevent <Space> from doing its default move in visual mode
 vim.keymap.set("v", "<Space>", "<Nop>", { noremap = true, silent = true })
@@ -13,7 +15,6 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.nu = true
-vim.opt.relativenumber = true
 vim.opt.wrap = false
 vim.opt.incsearch = true
 vim.opt.scrolloff = 8
