@@ -1,9 +1,4 @@
 -- Vim keybinds --
-
-vim.api.nvim_create_user_command("ReloadKeybinds", function()
-  loadfile(vim.fn.stdpath("config") .. "/lua/nvim-keybinds.lua")()
-end, {})
-
 vim.keymap.set('n', '.', ':', { noremap = true })
 
 -- Fix tabs --
@@ -24,6 +19,10 @@ vim.opt.scrolloff = 8
 
 -- Set leader key --
 vim.g.mapleader = ' '
+-- Prevent <Space> from doing its default move in visual mode
+vim.keymap.set("v", "<Space>", "<Nop>", { noremap = true, silent = true })
+
+vim.g.maplocalleader = ' '
 
 -- Set navigations --
 local modes = { "n", "v", "x", "o" }
@@ -31,6 +30,16 @@ vim.keymap.set(modes, "H", "0", { noremap = true })
 vim.keymap.set(modes, "L", "$", { noremap = true })
 vim.keymap.set(modes, "K", "<C-u>", { noremap = true })
 vim.keymap.set(modes, "J", "<C-d>", { noremap = true })
+
+-- Search for marked text in visual mode --
+vim.keymap.set("v", "/", function()
+  vim.cmd('normal! "vy')
+  local selected_text = vim.fn.getreg('"')
+  selected_text = selected_text:gsub("\n", " ") -- strip newlines
+  selected_text = vim.fn.escape(selected_text, "\\/.*$^~[]")
+  local keys = vim.api.nvim_replace_termcodes("/" .. selected_text, true, false, true)
+  vim.api.nvim_feedkeys(keys, "n", false)
+end, { noremap = true, silent = true })
 
 -- Add lines --
 vim.keymap.set("n", "<leader>o", [[:call append(line('.'), '')<CR>]])
@@ -74,13 +83,3 @@ vim.keymap.set('i', '<M-J>', '<C-o><C-u>', { desc = 'Move half-page up in insert
 
 vim.keymap.set('i', '<M-BS>', '<C-w>', { desc = 'Delete previous word in insert mode'})
 
-vim.schedule(function()
-  local ok, builtin = pcall(require, "telescope.builtin")
-  if not ok then return end
-
-  -- Telescope keybindings
-  vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = "Find files" })
-  vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find files (leader)" })
-  vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Live grep" })
-    vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = "Find symbols in file" })
-end)

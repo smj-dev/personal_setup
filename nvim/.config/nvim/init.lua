@@ -13,8 +13,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.o.clipboard = "unnamedplus"
--- Plugins to be installed with lazy --
---local opts = {}
+
+vim.api.nvim_create_user_command("ReloadKeybinds", function()
+  local ok, err = pcall(dofile, vim.fn.stdpath("config") .. "/lua/nvim-keybinds.lua")
+  if not ok then
+    vim.notify("Failed to reload keybinds: " .. err, vim.log.levels.ERROR)
+  else
+    vim.notify("Keybinds reloaded!", vim.log.levels.INFO)
+  end
+end, {})
 
 require("nvim-keybinds")
 require("lazy").setup("plugins")

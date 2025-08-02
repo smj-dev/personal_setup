@@ -7,7 +7,7 @@ source "$(dirname "$0")/scripts/constants.sh"
 echo "📜 Logging output to $LOG_FILE"
 
 usage() {
-    echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|all]"
+    echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|gitk|all]"
     exit 1
 }
 
