@@ -14,59 +14,55 @@ fi
 backup_existing() {
     local target="$1"  # The actual file/directory that needs to be backed up
 
-    # Ensure target exists before proceeding
     if [[ ! -e "$target" ]]; then
         echo "✅ No existing file at $target, skipping backup."
         return 0
     fi
 
-    # If the target exists and is NOT a symlink, back it up
     if [[ -e "$target" && ! -L "$target" ]]; then
         backup_target="${target}_backup_$(date +%Y%m%d_%H%M%S)"
         echo "⚠️ Backing up: $target -> $backup_target"
         mv "$target" "$backup_target"
     fi
 
-    # If the target is still there but is a symlink, remove it
     if [[ -L "$target" ]]; then
         echo "⚠️ Removing existing symlink: $target"
         rm "$target"
     fi
 }
-
 for package in "$@"; do
     echo "🔗 Preparing to stow $package..."
     package_dir="$REPO_DIR/$package"
-
-    # Ensure the package directory exists
     if [[ ! -d "$package_dir" ]]; then
         echo "❌ ERROR: Stow package directory '$package_dir' does not exist!"
         exit 1
     fi
 
-    # Handle Neovim separately (it goes into ~/.config)
-    if [[ "$package" == "nvim" ]]; then
-        target_dir="$HOME/.config/nvim"
-        backup_existing "$target_dir"
-        echo "🔗 Running 'stow -v -t ~/.config $package'..."
-        run_command "stow -v -t ~/.config $package"
-    else
-        # Handle other packages (bash, tmux) in home directory
-        for file in "$package_dir"/.*; do
-            file_name=$(basename "$file")
+    # Decide stow target: ~/.config or ~
+    if [[ -d "$package_dir/.config" ]]; then
+        target_dir="$HOME/.config"
+        mkdir -p "$target_dir"
 
-            # Ignore "." and ".."
-            if [[ "$file_name" == "." || "$file_name" == ".." ]]; then
-                continue
-            fi
-
-            # Backup existing file in home directory before stowing
-            backup_existing "$HOME/$file_name"
+        echo "📂 Detected .config in $package, stowing into ~/.config"
+        for item in "$package_dir/.config"/*; do
+            relative_path="${item#$package_dir/.config/}"
+            backup_existing "$target_dir/$relative_path"
         done
 
-        echo "🔗 Running 'stow -v -t ~ $package'..."
-        run_command "stow -v -t ~ $package"
+        run_command "stow -v -d $package_dir -t $target_dir .config"
+    else
+        target_dir="$HOME"
+
+        echo "📂 No .config detected, stowing into ~"
+        for item in "$package_dir"/.* "$package_dir"/*; do
+            file_name=$(basename "$item")
+            [[ "$file_name" == "." || "$file_name" == ".." ]] && continue
+            backup_existing "$target_dir/$file_name"
+        done
+
+        run_command "stow -v -d $package_dir -t $target_dir ."
     fi
 
     echo "✅ Successfully ran Stow for $package!"
 done
+

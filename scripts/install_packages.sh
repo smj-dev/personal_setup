@@ -94,7 +94,7 @@ elif [[ "$ID" == "almalinux" || "$ID" == "rhel" || "$ID" == "centos" ]]; then
             echo "✅ $package is already installed."
         else
             echo "Installing $package..."
-            run_command "sudo dnf install -y "$package"" 
+            run_command "sudo dnf install --skip-broken -y "$package"" 
         fi
     done
 else
