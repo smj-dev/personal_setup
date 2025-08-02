@@ -1,85 +1,78 @@
--- Vim keybinds --
-vim.keymap.set('n', '.', ':', { noremap = true })
+-- Keybinds & Config --
 
--- Fix tabs --
-vim.opt.tabstop=2
-vim.opt.softtabstop=2
-vim.opt.shiftwidth=2
-vim.opt.expandtab=true
-
--- Set editor config -- 
-vim.opt.nu = true -- linenumbers
-vim.opt.relativenumber = true
-
-vim.opt.wrap = false -- linewrap off
-
-vim.opt.incsearch = true
-
-vim.opt.scrolloff = 8
-
--- Set leader key --
+-- Leader
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 -- Prevent <Space> from doing its default move in visual mode
 vim.keymap.set("v", "<Space>", "<Nop>", { noremap = true, silent = true })
 
-vim.g.maplocalleader = ' '
+-- Options
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.nu = true
+vim.opt.relativenumber = true
+vim.opt.wrap = false
+vim.opt.incsearch = true
+vim.opt.scrolloff = 8
 
--- Set navigations --
+-- Helper function for consistency
+local function map(mode, lhs, rhs, desc)
+  vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, desc = desc })
+end
+
+-- Navigation ------------------------------------------------------------
+
+-- Motion remaps
 local modes = { "n", "v", "x", "o" }
-vim.keymap.set(modes, "H", "0", { noremap = true })
-vim.keymap.set(modes, "L", "$", { noremap = true })
-vim.keymap.set(modes, "K", "<C-u>", { noremap = true })
-vim.keymap.set(modes, "J", "<C-d>", { noremap = true })
+map(modes, "H", "0", "Jump to line start")
+map(modes, "L", "$", "Jump to line end")
+map(modes, "K", "<C-u>", "Page up")
+map(modes, "J", "<C-d>", "Page down")
 
--- Search for marked text in visual mode --
-vim.keymap.set("v", "/", function()
+-- Pane navigation
+map("n", "<C-k>", ":wincmd k<CR>", "Pane up")
+map("n", "<C-j>", ":wincmd j<CR>", "Pane down")
+map("n", "<C-h>", ":wincmd h<CR>", "Pane left")
+map("n", "<C-l>", ":wincmd l<CR>", "Pane right")
+
+-- Insert mode movement
+map("i", "<M-h>", "<Left>", "Move left in insert mode")
+map("i", "<M-l>", "<Right>", "Move right in insert mode")
+map("i", "<M-j>", "<Down>", "Move down in insert mode")
+map("i", "<M-k>", "<Up>", "Move up in insert mode")
+map("i", "<M-K>", "<C-o>b", "Move word left in insert mode")
+map("i", "<M-L>", "<C-o>w", "Move word right in insert mode")
+map("i", "<M-J>", "<C-o><C-d>", "Half-page down in insert mode")
+map("i", "<M-U>", "<C-o><C-u>", "Half-page up in insert mode")
+map("i", "<M-BS>", "<C-w>", "Delete word in insert mode")
+
+-- Search ----------------------------------------------------------------
+
+map("v", "/", function()
   vim.cmd('normal! "vy')
   local selected_text = vim.fn.getreg('"')
-  selected_text = selected_text:gsub("\n", " ") -- strip newlines
+  selected_text = selected_text:gsub("\n", " ")
   selected_text = vim.fn.escape(selected_text, "\\/.*$^~[]")
   local keys = vim.api.nvim_replace_termcodes("/" .. selected_text, true, false, true)
   vim.api.nvim_feedkeys(keys, "n", false)
-end, { noremap = true, silent = true })
+end, "Search with selection")
 
--- Add lines --
-vim.keymap.set("n", "<leader>o", [[:call append(line('.'), '')<CR>]])
-vim.keymap.set("n", "<leader>O", [[:call append(line('.') - 1, '')<CR>]])
+-- Editing ---------------------------------------------------------------
 
-local move_opts = { noremap = true, silent = true }
+map("n", "<leader>o", [[:call append(line('.'), '')<CR>]], "Add line below")
+map("n", "<leader>O", [[:call append(line('.') - 1, '')<CR>]], "Add line above")
+map("n", "<leader><Space>", "i <Esc>", "Insert space")
 
--- Move line up/down in normal mode (preserve cursor)
-vim.keymap.set("n", "<C-M-k>", "mz:m-2<CR>`z==", move_opts)
-vim.keymap.set("n", "<C-M-j>", "mz:m+1<CR>`z==", move_opts)
+map("n", "<C-M-k>", "mz:m-2<CR>`z==", "Move line up")
+map("n", "<C-M-j>", "mz:m+1<CR>`z==", "Move line down")
+map("v", "<C-M-k>", ":m '<-2<CR>gv=gv", "Move selection up")
+map("v", "<C-M-j>", ":m '>+1<CR>gv=gv", "Move selection down")
 
--- Move selection up/down in visual mode (preserve selection)
-vim.keymap.set("v", "<C-M-k>", ":m '<-2<CR>gv=gv", move_opts)
-vim.keymap.set("v", "<C-M-j>", ":m '>+1<CR>gv=gv", move_opts)
-
--- Indent in normal mode
-vim.keymap.set("n", "<C-M-h>", "<<", move_opts)
-vim.keymap.set("n", "<C-M-l>", ">>", move_opts)
-
--- Indent in visual mode (reselect after shift)
-vim.keymap.set("v", "<C-M-h>", "<gv", move_opts)
-vim.keymap.set("v", "<C-M-l>", ">gv", move_opts)
-
-
--- Navigate vim panes in nvim --
-vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
-
--- navigate in insert mode --
-vim.keymap.set('i', '<M-h>', '<Left>', { desc = 'Move left in insert mode'})
-vim.keymap.set('i', '<M-l>', '<Right>', { desc = 'Move right in insert mode'})
-vim.keymap.set('i', '<M-j>', '<Down>', { desc = 'Move down in insert mode'})
-vim.keymap.set('i', '<M-k>', '<Up>', { desc = 'Move up in insert mode'})
-
-vim.keymap.set('i', '<M-K>', '<C-o>b', { desc = 'Move word left in insert mode'})
-vim.keymap.set('i', '<M-L>', '<C-o>w', { desc = 'Move word right in insert mode'})
-vim.keymap.set('i', '<M-J>', '<C-o><C-d>', { desc = 'Move half-page down in insert mode'})
-vim.keymap.set('i', '<M-J>', '<C-o><C-u>', { desc = 'Move half-page up in insert mode'})
-
-vim.keymap.set('i', '<M-BS>', '<C-w>', { desc = 'Delete previous word in insert mode'})
+map("n", "<C-M-h>", "<<", "Indent left")
+map("n", "<C-M-l>", ">>", "Indent right")
+map("v", "<C-M-h>", "<gv", "Indent left (reselect)")
+map("v", "<C-M-l>", ">gv", "Indent right (reselect)")
 
