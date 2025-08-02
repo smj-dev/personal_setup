@@ -15,7 +15,7 @@ cd personal_setup
 ./setup.sh all
 ```
 
-Options:
+Options for setup.sh:
 
 * `packages`
   Install system packages (via apt) and Mason packages for Neovim.
