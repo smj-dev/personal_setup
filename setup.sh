@@ -48,7 +48,6 @@ for arg in "$@"; do
             bash "$REPO_DIR/scripts/install_packages.sh"
             bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash" "gitk"
 
-            bash "$REPO_DIR/scripts/setup_gitk_theme.sh"
             bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"
             bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
             ;;
