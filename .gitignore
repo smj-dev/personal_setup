@@ -17,8 +17,6 @@ session.vim
 undo/
 view/
 shada/
-lazy-lock.json
-nvim/nvim/lazy-lock.json
 
 # Ignore system-specific files
 .DS_Store
