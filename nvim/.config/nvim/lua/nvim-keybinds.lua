@@ -18,6 +18,10 @@ vim.opt.nu = true
 vim.opt.wrap = false
 vim.opt.incsearch = true
 vim.opt.scrolloff = 8
+vim.opt.number = true
+vim.opt.relativenumber = false
+vim.opt.signcolumn = "auto"
+
 
 -- Helper function for consistency
 local function map(mode, lhs, rhs, desc)

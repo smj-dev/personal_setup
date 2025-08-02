@@ -41,7 +41,7 @@
 * **Word left:** `Alt + K`
 * **Word right:** `Alt + L`
 * **Half-page down:** `Alt + J`
-* **Half-page up:** `Alt + J`
+* **Half-page up:** `Alt + U`
 * **Delete previous word:** `Alt + Backspace`
 
 ### Visual Multi (vim-visual-multi)
@@ -57,13 +57,13 @@
 
 ### Searching
 
-* **Fuzzy find files:** `<C-p>` or `<Space>ff`
-* **Grep in project:** `<Space>fg`
+* **Fuzzy find files:** `<C-p>` or `<Space>ff`  
+  *Visual Mode:* prefilled with selection
+* **Grep in project:** `<Space>fg`  
+  *Visual Mode:* prefilled with selection
 * **Jump to symbol in file:** `<Space>fs`
-
-*Default Neovim Searching:*
-
-* **Search forward:** `/`
+* **Search forward:** `/`  
+  *Visual Mode:* prefilled with selection
 * **Search backward:** `?`
 * **Next search result:** `n`
 * **Previous search result:** `N`
@@ -76,11 +76,17 @@
 
 * **Show hover information:** `K`
 * **Go to definition:** `gd`
-* **Go to declaration:** `gD`
-* **Go to implementation:** `gi`
-* **Go to references:** `gr`
 * **Code action:** `<Space>ca`
 * **Rename symbol:** `<Space>rn`
+
+### Git
+
+* **File history:** `:Gclog`
+* **Project history:** `:Gclog!`
+* **Blame current file:** `:Gblame`
+* **Diff with previous commit:** `:Gdiffsplit`
+* **Commit graph (flog):** `:Flog`
+* **Commit graph split (flog):** `:Flogsplit`
 
 ### Undo
 
@@ -109,6 +115,7 @@
 * **Insert new line above (insert mode):** `O`
 * **Create line below (normal mode, stay in normal):** `<Space>o`
 * **Create line above (normal mode, stay in normal):** `<Space>O`
+* **Insert space at cursor (normal mode):** `<Space><Space>`
 * **Move line up (normal):** `Ctrl + Alt + k`
 * **Move line down (normal):** `Ctrl + Alt + j`
 * **Move selection up (visual):** `Ctrl + Alt + k`
@@ -118,9 +125,9 @@
 
 ### Surround (nvim-surround)
 
-* **Add surround:** `ys<motion><char>` (e.g., `ysiw"` → "word")
-* **Change surround:** `cs<old><new>` (e.g., `cs"'`)
-* **Delete surround:** `ds<char>` (e.g., `ds"`)
+* **Add surround:** `ys<motion><char>` (e.g., `ysiw"`)
+* **Change surround:** `cs<old><new>`
+* **Delete surround:** `ds<char>`
 * **Visual surround:** `S<char>` (in visual mode)
 
 ### Snippet Expansion (LuaSnip)
@@ -147,32 +154,25 @@
 ### Window Management
 
 * **Create new window:** `Ctrl+a t`
-* **Rename window:** `Ctrl+a ,`
 * **Close window:** `Ctrl+a w`
-* **Next/Previous window:** `Ctrl+a n / Ctrl+a p`
-* **Last active window:** `Ctrl+a o`
+* **Last active window:** `Ctrl+a b`
 
 ### Pane Management
 
 * **Split horizontally:** `Ctrl+a v`
 * **Split vertically:** `Ctrl+a V`
-* **Navigate between panes:** `Ctrl+a` + `h/j/k/l`
+* **Navigate between panes:** `Ctrl+a h/j/k/l`
 
 ### Copy Mode
 
 * **Enter copy mode:** `Ctrl+a c`
-* **Scroll and copy:** standard copy-mode keys
+* **Scroll and copy:** vi-style keys (due to `setw -g mode-keys vi`)
 
 ### Plugins Used
 
 * **TPM:** `tmux-plugins/tpm`
-* **Navigator:** `vim-tmux-navigator`
+* **Navigator:** `christooney/vim-tmux-navigator`
 * **Theme:** `catppuccin/tmux`
 
 ---
-
-*References:*
-
-* Neovim Default Keybindings: [Neovim Documentation](https://neovim.io/doc/user/quickref.html)
-* tmux Keybindings: [tmux man page](https://man7.org/linux/man-pages/man1/tmux.1.html)
 
