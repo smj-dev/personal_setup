@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="332" height="350">
+<rect x="0" y="0" width="332" height="350" fill="#1e1e1e" />
+<text x="10" y="28" fill="#eaeaea" font-size="18" font-family="Inter,Segoe UI,Arial">Numeric Layer – hold §</text>
+<rect x="10" y="40" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="20" y="66" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">U</text>
+<text x="20" y="88" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">1</text>
+<rect x="90" y="40" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="100" y="66" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">I</text>
+<text x="100" y="88" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">2</text>
+<rect x="170" y="40" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="180" y="66" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">O</text>
+<text x="180" y="88" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">3</text>
+<rect x="250" y="40" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="260" y="66" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">P</text>
+<text x="260" y="88" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">+</text>
+<rect x="10" y="112" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="20" y="138" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">J</text>
+<text x="20" y="160" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">4</text>
+<rect x="90" y="112" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="100" y="138" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">K</text>
+<text x="100" y="160" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">5</text>
+<rect x="170" y="112" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="180" y="138" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">L</text>
+<text x="180" y="160" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">6</text>
+<rect x="250" y="112" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="260" y="138" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">Ö</text>
+<text x="260" y="160" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">*</text>
+<rect x="10" y="184" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="20" y="210" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">,</text>
+<text x="20" y="232" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">7</text>
+<rect x="90" y="184" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="100" y="210" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">.</text>
+<text x="100" y="232" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">8</text>
+<rect x="170" y="184" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="180" y="210" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">-</text>
+<text x="180" y="232" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">9</text>
+<rect x="250" y="184" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="260" y="210" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">M</text>
+<text x="260" y="232" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">0</text>
+<rect x="10" y="256" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="20" y="282" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">Å</text>
+<text x="20" y="304" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">/</text>
+<rect x="90" y="256" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="100" y="282" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">¨</text>
+<text x="100" y="304" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">-</text>
+<rect x="170" y="256" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="180" y="282" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">Ä</text>
+<text x="180" y="304" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">=</text>
+<rect x="250" y="256" width="72" height="64" rx="8" fill="#2b2b2b" stroke="#454545"/>
+<text x="260" y="282" fill="#eaeaea" font-size="18" font-family="Menlo,Consolas,monospace">'</text>
+<text x="260" y="304" fill="#b5b5b5" font-size="14" font-family="Menlo,Consolas,monospace">.</text>
+</svg>

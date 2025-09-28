@@ -47,3 +47,7 @@ site/
 
 # Ingore repos downloaded by install script
 tmux/.tmux/plugins
+
+# Ignore build artifacts
+qmk/build
+qmk2/build
