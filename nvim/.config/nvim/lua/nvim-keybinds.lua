@@ -81,3 +81,35 @@ map("n", "<C-M-l>", ">>", "Indent right")
 map("v", "<C-M-h>", "<gv", "Indent left (reselect)")
 map("v", "<C-M-l>", ">gv", "Indent right (reselect)")
 
+-- Toggle between header/source with same basename in the same folder
+local function toggle_header_source()
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == "" then return end
+  local base, ext = path:match("^(.*)%.([%w_]+)$")
+  if not base then return end
+
+  local headers = { h = true, hh = true, hpp = true, hxx = true }
+  local sources = { c = true, cc = true, cpp = true, cxx = true }
+
+  local candidates
+  if headers[ext] then
+    candidates = { "cpp", "cc", "cxx", "c" }
+  elseif sources[ext] then
+    candidates = { "h", "hpp", "hh", "hxx" }
+  else
+    vim.notify("Not a C/C++ header or source: " .. ext, vim.log.levels.WARN)
+    return
+  end
+
+  for _, e in ipairs(candidates) do
+    local cand = base .. "." .. e
+    if vim.loop.fs_stat(cand) then
+      vim.cmd.edit(vim.fn.fnameescape(cand))
+      return
+    end
+  end
+  vim.notify("No counterpart found next to file", vim.log.levels.WARN)
+end
+
+map("n", "<leader>gh", toggle_header_source, "Toggle header/source")
+

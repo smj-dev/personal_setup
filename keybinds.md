@@ -32,6 +32,8 @@
 * **Jump to previous location:** `<C-o>`
 * **Jump to next location:** `<C-i>`
 
+* **Jump to header/source:** `<leader>gh`
+
 #### Navigation in insert mode
 
 * **Move left:** `Alt + h`
