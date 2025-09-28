@@ -81,6 +81,10 @@ map("n", "<C-M-l>", ">>", "Indent right")
 map("v", "<C-M-h>", "<gv", "Indent left (reselect)")
 map("v", "<C-M-l>", ">gv", "Indent right (reselect)")
 
+-- Paste over word and keep buffer
+map("n", "<leader>p", [["_ciw<C-r>0<Esc>]], "Paste over word (keep yank, keep spaces)")
+map("x", "<leader>p", [["_dP]], "Paste over selection (keep yank)")
+
 -- Toggle between header/source with same basename in the same folder
 local function toggle_header_source()
   local path = vim.api.nvim_buf_get_name(0)

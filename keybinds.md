@@ -31,7 +31,6 @@
 
 * **Jump to previous location:** `<C-o>`
 * **Jump to next location:** `<C-i>`
-
 * **Jump to header/source:** `<leader>gh`
 
 #### Navigation in insert mode
@@ -45,6 +44,10 @@
 * **Half-page down:** `Alt + J`
 * **Half-page up:** `Alt + U`
 * **Delete previous word:** `Alt + Backspace`
+
+### Copy Paste
+* **Paste over word and keep buffer** `<Space>gh`
+
 
 ### Visual Multi (vim-visual-multi)
 
