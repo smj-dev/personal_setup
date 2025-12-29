@@ -42,14 +42,15 @@ COMMON_PACKAGES=(
     make
     xclip
     bat
-    alsa-utils
+ python3.12-venv
+ alsa-utils
 )
 
 DEBIAN_PACKAGES=(
     lua5.1
     liblua5.1-0-dev
     libgtk-3-dev
-    libwebkit2gtk-4.0-dev
+    # libwebkit2gtk-6.0-dev
 )
 
 RHEL_PACKAGES=(
