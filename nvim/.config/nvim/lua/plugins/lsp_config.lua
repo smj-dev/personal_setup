@@ -1,4 +1,4 @@
--- LSP config and mason --:
+-- lua/plugins/lsp_config.lua
 return {
   {
     "williamboman/mason.nvim",
@@ -10,7 +10,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "clangd" },
+        ensure_installed = { "lua_ls", "clangd", "ts_ls", "html" },
       })
     end,
   },
@@ -18,7 +18,6 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require("lspconfig")
 
       vim.diagnostic.config({
         virtual_text = false,
@@ -33,12 +32,13 @@ return {
         },
       })
 
-      lspconfig.clangd.setup({})
-      lspconfig.ts_ls.setup({ capabilities = capabilities })
-      lspconfig.html.setup({ capabilities = capabilities })
-      lspconfig.lua_ls.setup({ capabilities = capabilities })
+      vim.lsp.config("clangd", { capabilities = capabilities })
+      vim.lsp.config("ts_ls",  { capabilities = capabilities })
+      vim.lsp.config("html",   { capabilities = capabilities })
+      vim.lsp.config("lua_ls", { capabilities = capabilities })
 
-      -- LSP keymaps
+      vim.lsp.enable({ "clangd", "ts_ls", "html", "lua_ls" })
+
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP Hover" })
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP Goto Definition" })
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
@@ -46,3 +46,4 @@ return {
     end,
   },
 }
+
