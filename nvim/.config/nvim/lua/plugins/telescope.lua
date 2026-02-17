@@ -11,6 +11,7 @@ return {
       telescope.setup({
         defaults = {
           file_ignore_patterns = { ".git/" }, -- keep .git ignored
+          preview = { treesitter = false },
         },
         pickers = {
           find_files = {
