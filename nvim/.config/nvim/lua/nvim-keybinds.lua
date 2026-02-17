@@ -43,6 +43,12 @@ map("n", "<C-j>", ":wincmd j<CR>", "Pane down")
 map("n", "<C-h>", ":wincmd h<CR>", "Pane left")
 map("n", "<C-l>", ":wincmd l<CR>", "Pane right")
 
+-- Window management
+map("n", "<leader>wv", "<C-w>v", "Split vertical")
+map("n", "<leader>ws", "<C-w>s", "Split horizontal")
+map("n", "<leader>wq", "<C-w>q", "Close window")
+map("n", "<leader>w=", "<C-w>=", "Equalize windows")
+
 -- Insert mode movement
 map("i", "<M-h>", "<Left>", "Move left in insert mode")
 map("i", "<M-l>", "<Right>", "Move right in insert mode")
@@ -53,6 +59,7 @@ map("i", "<M-L>", "<C-o>w", "Move word right in insert mode")
 map("i", "<M-J>", "<C-o><C-d>", "Half-page down in insert mode")
 map("i", "<M-U>", "<C-o><C-u>", "Half-page up in insert mode")
 map("i", "<M-BS>", "<C-w>", "Delete word in insert mode")
+
 
 -- Search ----------------------------------------------------------------
 
@@ -80,6 +87,8 @@ map("n", "<C-M-h>", "<<", "Indent left")
 map("n", "<C-M-l>", ">>", "Indent right")
 map("v", "<C-M-h>", "<gv", "Indent left (reselect)")
 map("v", "<C-M-l>", ">gv", "Indent right (reselect)")
+map("v", "<", "<gv", "Indent left (repeatable)")
+map("v", ">", ">gv", "Indent right (repeatable)")
 
 -- Paste over word and keep buffer
 map("n", "<leader>p", [["_ciw<C-r>0<Esc>]], "Paste over word (keep yank, keep spaces)")
