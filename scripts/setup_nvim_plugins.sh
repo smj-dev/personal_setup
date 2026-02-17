@@ -37,7 +37,7 @@ install_neovim() {
         INSTALLED_NVIM_VERSION="0.0.0"
     fi
 
-    LATEST_NVIM_VERSION="0.10.4"
+    LATEST_NVIM_VERSION="0.11.6"
     if [ "$(printf '%s\n' "$LATEST_NVIM_VERSION" "$INSTALLED_NVIM_VERSION" | sort -V | head -n 1)" == "$LATEST_NVIM_VERSION" ]; then
         echo "✅ Neovim is up to date!"
         return 0

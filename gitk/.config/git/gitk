@@ -4,7 +4,7 @@ set uifont {sans 9 bold}
 set tabstop 8
 set findmergefiles 0
 set maxgraphpct 50
-set maxwidth 16
+set maxwidth 17
 set cmitmode patch
 set wrapcomment none
 set autoselect 1

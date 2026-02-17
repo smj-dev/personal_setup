@@ -4,6 +4,9 @@ return {
     "hrsh7th/cmp-nvim-lsp",
   },
   {
+    "hrsh7th/cmp-buffer",
+  },
+  {
     "L3MON4D3/LuaSnip",
     dependencies = {
       "saadparwaiz1/cmp_luasnip",
@@ -19,7 +22,7 @@ return {
       cmp.setup({
         snippet = {
           expand = function(args)
-            require("luasnip").lps_expand(args.body)
+            require("luasnip").lsp_expand(args.body)
           end,
         },
 
@@ -35,7 +38,6 @@ return {
           ["<C-j>"] = cmp.mapping.select_next_item(),
           ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          cmp.setup({ confirmation = { completeopt = "menu,menuone,noinsert" } }),
         }),
 
         sources = cmp.config.sources({

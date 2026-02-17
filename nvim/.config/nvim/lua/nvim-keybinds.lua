@@ -21,6 +21,7 @@ vim.opt.scrolloff = 8
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.signcolumn = "auto"
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 
 -- Helper function for consistency
@@ -125,4 +126,27 @@ local function toggle_header_source()
 end
 
 map("n", "<leader>gh", toggle_header_source, "Toggle header/source")
+
+-- Show diagnostics when cursor pauses
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false })
+  end,
+})
+
+-- Format Python on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function(args)
+    local bufnr = args.buf
+
+    local clients = vim.lsp.get_clients({ bufnr = bufnr })
+    for _, client in ipairs(clients) do
+      if client.supports_method("textDocument/formatting") then
+        vim.lsp.buf.format({ bufnr = bufnr })
+        return
+      end
+    end
+  end,
+})
 
