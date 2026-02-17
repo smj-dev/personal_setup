@@ -1,0 +1,389 @@
+{
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.lineNumbers": "relative",
+
+    "explorer.autoReveal": false,
+    "workbench.editor.showTabs": "none",
+    "zenMode.centerLayout": false,
+    "zenMode.fullScreen": true,
+    "zenMode.hideStatusBar": false,
+    "zenMode.showTabs": "none",
+    "window.commandCenter": false,
+    "window.titleBarStyle": "custom",
+    "window.customTitleBarVisibility": "never",
+    "window.zoomLevel": 0,
+    "editor.autoIndent": "full",
+    "editor.formatOnPaste": false,
+    "[python]": {
+        "editor.formatOnPaste": false
+    },
+    "vim.togglePaste": true,
+    "editor.minimap.enabled": false,
+    "zenMode.hideLineNumbers": false,
+    // --- VSCodeVim ---
+    "vim.leader": " ",
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        // 1) ":" -> "."
+        {
+            "before": [
+                "."
+            ],
+            "commands": [
+                "vim.showQuickpickCmdLine"
+            ]
+        }, // Space o → new line BELOW, keep cursor & normal mode
+        {
+            "before": [
+                ".",
+                "w"
+            ],
+            "commands": [
+                "workbench.action.files.save"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "z",
+                "z"
+            ],
+            "commands": [
+                "workbench.action.toggleZenMode"
+            ]
+        },
+        {
+            "before": [
+                ".",
+                "q"
+            ],
+            "commands": [
+                "workbench.action.closeActiveEditor"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "w",
+                "v"
+            ],
+            "commands": [
+                "workbench.action.splitEditorRight"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "w",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.splitEditorDown"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "w",
+                "q"
+            ],
+            "commands": [
+                "workbench.action.closeActiveEditor"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "w",
+                "="
+            ],
+            "commands": [
+                "workbench.action.evenEditorWidths"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "o"
+            ],
+            "commands": [
+                "editor.action.insertLineAfter",
+                "cursorUp"
+            ]
+        },
+        // Space O → new line ABOVE, keep cursor & normal mode
+        {
+            "before": [
+                " ",
+                "O"
+            ],
+            "commands": [
+                "editor.action.insertLineBefore",
+                "cursorDown"
+            ]
+        },
+        {
+            "before": [
+                "<C-a>"
+            ],
+            "after": [
+                "g",
+                "g",
+                "V",
+                "G"
+            ]
+        },
+        {
+            "before": [
+                "/"
+            ],
+            "commands": [
+                "actions.find"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "p"
+            ],
+            "after": [
+                "\"",
+                "_",
+                "d",
+                "i",
+                "w",
+                "P"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "r",
+                "n"
+            ],
+            "commands": [
+                "editor.action.rename"
+            ]
+        },
+        // Line navigation
+        {
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        }
+        // Page navigation
+        {
+            "before": [
+                "J"
+            ],
+            "commands": [
+                "cursorPageDown"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "cursorPageUp"
+            ]
+        },
+        // 2) <Space> f f -> find file
+        {
+            "before": [
+                " ",
+                "f",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "c",
+                "c"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "g",
+                "f"
+            ],
+            "commands": [
+                "editor.action.formatDocument"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "g",
+                "d"
+            ],
+            "commands": [
+                "editor.action.revealDefinition"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "g",
+                "D"
+            ],
+            "commands": [
+                "editor.action.goToDeclaration"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "f",
+                "r"
+            ],
+            "commands": [
+                "editor.action.referenceSearch.trigger"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "f",
+                "g"
+            ],
+            "commands": [
+                "workbench.action.findInFiles"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "f",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.showAllSymbols"
+            ]
+        },
+        // Workspace (repo-wide) symbols
+        {
+            "before": [
+                " ",
+                "f",
+                "S"
+            ],
+            "commands": [
+                "workbench.action.showAllSymbols"
+            ]
+        }
+    ],
+    // 3) Ctrl+n -> toggle explorer (tree) visibility + focus
+    "vim.handleKeys": {
+        "<C-n>": false,
+        "<C-v>": false,
+        "<C-c>": false,
+        "<C-x>": false,
+        "<C-h>": false,
+        "<C-j>": false,
+        "<C-k>": false,
+        "<C-l>": false,
+    },
+    "terminal.integrated.commandsToSkipShell": [
+        "ctrl+h",
+        "ctrl+j",
+        "ctrl+k",
+        "ctrl+l"
+    ],
+    "vim.operatorPendingModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ],
+            "after": [
+                "g",
+                "v"
+            ]
+        },
+        {
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ],
+            "after": [
+                "g",
+                "v"
+            ]
+        },
+        // Visual "gc" → toggle comment on selection, stay selected
+        {
+            "before": [
+                "g",
+                "c"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ],
+            "after": [
+                "g",
+                "v"
+            ]
+        }
+    ],
+    "workbench.colorTheme": "Catppuccin Macchiato",
+    "haskell.manageHLS": "GHCup",
+}

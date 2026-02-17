@@ -43,6 +43,11 @@ for arg in "$@"; do
             echo "Setting up gitk theme..."
             bash "$REPO_DIR/scripts/stow.sh" "gitk"
             ;;
+        code)
+            echo "Setting up vs code config..."
+            bash "$REPO_DIR/scripts/setup_vs_code.sh"
+            bash "$REPO_DIR/scripts/stow.sh" "code"
+            ;;
         all)
             echo "⚙️  Running full setup..."
             bash "$REPO_DIR/scripts/install_packages.sh"

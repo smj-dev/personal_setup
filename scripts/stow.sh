@@ -30,6 +30,7 @@ backup_existing() {
         rm "$target"
     fi
 }
+
 for package in "$@"; do
     echo "🔗 Preparing to stow $package..."
     package_dir="$REPO_DIR/$package"
