@@ -17,11 +17,11 @@ RESET="\e[0m"
 # ========================
 
 run_command() {
-    local cmd="$1"
-    echo "🔄 Running: $cmd" >> "$LOG_FILE"
-    eval "$cmd" >> "$LOG_FILE" 2>&1 || {
-        echo "❌ ERROR: Command failed: $cmd"
-        echo "Check logs: $LOG_FILE"
-        exit 1
-    }
+  local cmd="$1"
+  echo "🔄 Running: $cmd" >>"$LOG_FILE"
+  eval "$cmd" >>"$LOG_FILE" 2>&1 || {
+    echo "❌ ERROR: Command failed: $cmd"
+    echo "Check logs: $LOG_FILE"
+    exit 1
+  }
 }
