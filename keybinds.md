@@ -106,9 +106,9 @@
 
 ### Completions (nvim-cmp)
 
-* **Trigger completion:** `<C-m>`
+* **Trigger completion:** `<C-Space>`
 * **Scroll docs:** `<C-b> / <C-f>`
-* **Next/Previous suggestion:** `<C-j> / <C-e>`
+* **Next/Previous suggestion:** `<C-j> / <C-k>`
 * **Confirm suggestion:** `<Enter>`
 
 ### Commenting (Comment.nvim)
