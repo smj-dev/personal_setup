@@ -58,7 +58,7 @@ Running without arguments will show usage instructions.
 
 ## Adding Packages
 
-Packages are managed through [`scripts/install_packages.sh`](scripts/install_packages.sh).
+Packages are managed through `scripts/install_packages.sh`.
 
 * Add **system packages** to the `packages` list.
 * Add **Mason packages** (for Neovim) to the `mason_packages` list.
@@ -99,20 +99,4 @@ To update settings without installing packages:
 ./scripts/stow.sh [nvim|tmux|bash|gitk]
 ```
 
----
-
-## Repository Structure
-
-```
-personal_setup/
-├── nvim/                 # Neovim configuration
-├── tmux/                 # tmux configuration
-├── scripts/              # Setup and helper scripts
-│   ├── setup.sh
-│   ├── generate_start_scripts.sh
-│   ├── install_packages.sh
-│   └── stow.sh
-├── keybinds.md           # Documentation of all keybindings
-└── README.md             # This file
-```
 

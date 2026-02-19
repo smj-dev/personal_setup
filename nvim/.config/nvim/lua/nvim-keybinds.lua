@@ -34,8 +34,6 @@ end
 local modes = { "n", "v", "x", "o" }
 map(modes, "H", "0", "Jump to line start")
 map(modes, "L", "$", "Jump to line end")
-map(modes, "K", "<C-u>", "Page up")
-map(modes, "J", "<C-d>", "Page down")
 
 -- Pane navigation
 map("n", "<C-k>", ":wincmd k<CR>", "Pane up")

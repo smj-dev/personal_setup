@@ -24,8 +24,6 @@
 
 * **Go to beginning of line:** `H`
 * **Go to end of line:** `L`
-* **Scroll up:** `K`
-* **Scroll down:** `J`
 
 #### Jumplist
 
@@ -46,7 +44,7 @@
 * **Delete previous word:** `Alt + Backspace`
 
 ### Copy Paste
-* **Paste over word and keep buffer** `<Space>gh`
+* **Paste over word and keep buffer** `<Space>p`
 
 
 ### Visual Multi (vim-visual-multi)
@@ -66,6 +64,10 @@
   *Visual Mode:* prefilled with selection
 * **Grep in project:** `<Space>fg`  
   *Visual Mode:* prefilled with selection
+**Exact string grep in project:** `<Space>fg`  
+  *Visual Mode:* prefilled with selection
+**Send Search to persistent list** `<C-q>`  
+  
 * **Jump to symbol in file:** `<Space>fs`
 * **Search forward:** `/`  
   *Visual Mode:* prefilled with selection
@@ -172,12 +174,6 @@
 
 * **Enter copy mode:** `Ctrl+a c`
 * **Scroll and copy:** vi-style keys (due to `setw -g mode-keys vi`)
-
-### Plugins Used
-
-* **TPM:** `tmux-plugins/tpm`
-* **Navigator:** `christooney/vim-tmux-navigator`
-* **Theme:** `catppuccin/tmux`
 
 ---
 
