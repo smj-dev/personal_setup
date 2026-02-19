@@ -35,12 +35,25 @@ return {
 			vim.lsp.config("clangd", { capabilities = capabilities })
 			vim.lsp.config("html", { capabilities = capabilities })
 			vim.lsp.config("lua_ls", { capabilities = capabilities })
+			local function pyright_python_path()
+				local cwd = vim.fn.getcwd()
+				local candidates = {
+					cwd .. "/.venv/bin/python",
+					cwd .. "/venv/bin/python",
+				}
+				for _, p in ipairs(candidates) do
+					if vim.loop.fs_stat(p) then
+						return p
+					end
+				end
+				return vim.fn.exepath("python3")
+			end
+
 			vim.lsp.config("pyright", {
 				capabilities = capabilities,
 				settings = {
 					python = {
-						pythonPath = vim.fn.exepath("python3"),
-						venvPath = ".",
+						pythonPath = pyright_python_path(),
 						analysis = {
 							autoSearchPaths = true,
 							useLibraryCodeForTypes = true,
@@ -49,6 +62,7 @@ return {
 					},
 				},
 			})
+
 			vim.lsp.config("bashls", { capabilities = capabilities })
 
 			vim.lsp.enable({ "clangd", "html", "lua_ls", "pyright", "bashls" })

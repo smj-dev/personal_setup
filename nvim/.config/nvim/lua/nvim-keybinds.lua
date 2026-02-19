@@ -1,10 +1,10 @@
 -- Keybinds & Config --
 -- Leader
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Remap :
-vim.keymap.set('n', '.', ':', { noremap = true })
+vim.keymap.set("n", ".", ":", { noremap = true })
 
 -- Prevent <Space> from doing its default move in visual mode
 vim.keymap.set("v", "<Space>", "<Nop>", { noremap = true, silent = true })
@@ -23,10 +23,9 @@ vim.opt.relativenumber = false
 vim.opt.signcolumn = "auto"
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-
 -- Helper function for consistency
 local function map(mode, lhs, rhs, desc)
-  vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, desc = desc })
+	vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, desc = desc })
 end
 
 -- Navigation ------------------------------------------------------------
@@ -61,16 +60,15 @@ map("i", "<M-J>", "<C-o><C-d>", "Half-page down in insert mode")
 map("i", "<M-U>", "<C-o><C-u>", "Half-page up in insert mode")
 map("i", "<M-BS>", "<C-w>", "Delete word in insert mode")
 
-
 -- Search ----------------------------------------------------------------
 
 map("v", "/", function()
-  vim.cmd('normal! "vy')
-  local selected_text = vim.fn.getreg('"')
-  selected_text = selected_text:gsub("\n", " ")
-  selected_text = vim.fn.escape(selected_text, "\\/.*$^~[]")
-  local keys = vim.api.nvim_replace_termcodes("/" .. selected_text, true, false, true)
-  vim.api.nvim_feedkeys(keys, "n", false)
+	vim.cmd('normal! "vy')
+	local selected_text = vim.fn.getreg('"')
+	selected_text = selected_text:gsub("\n", " ")
+	selected_text = vim.fn.escape(selected_text, "\\/.*$^~[]")
+	local keys = vim.api.nvim_replace_termcodes("/" .. selected_text, true, false, true)
+	vim.api.nvim_feedkeys(keys, "n", false)
 end, "Search with selection")
 
 -- Editing ---------------------------------------------------------------
@@ -97,32 +95,36 @@ map("x", "<leader>p", [["_dP]], "Paste over selection (keep yank)")
 
 -- Toggle between header/source with same basename in the same folder
 local function toggle_header_source()
-  local path = vim.api.nvim_buf_get_name(0)
-  if path == "" then return end
-  local base, ext = path:match("^(.*)%.([%w_]+)$")
-  if not base then return end
+	local path = vim.api.nvim_buf_get_name(0)
+	if path == "" then
+		return
+	end
+	local base, ext = path:match("^(.*)%.([%w_]+)$")
+	if not base then
+		return
+	end
 
-  local headers = { h = true, hh = true, hpp = true, hxx = true }
-  local sources = { c = true, cc = true, cpp = true, cxx = true }
+	local headers = { h = true, hh = true, hpp = true, hxx = true }
+	local sources = { c = true, cc = true, cpp = true, cxx = true }
 
-  local candidates
-  if headers[ext] then
-    candidates = { "cpp", "cc", "cxx", "c" }
-  elseif sources[ext] then
-    candidates = { "h", "hpp", "hh", "hxx" }
-  else
-    vim.notify("Not a C/C++ header or source: " .. ext, vim.log.levels.WARN)
-    return
-  end
+	local candidates
+	if headers[ext] then
+		candidates = { "cpp", "cc", "cxx", "c" }
+	elseif sources[ext] then
+		candidates = { "h", "hpp", "hh", "hxx" }
+	else
+		vim.notify("Not a C/C++ header or source: " .. ext, vim.log.levels.WARN)
+		return
+	end
 
-  for _, e in ipairs(candidates) do
-    local cand = base .. "." .. e
-    if vim.loop.fs_stat(cand) then
-      vim.cmd.edit(vim.fn.fnameescape(cand))
-      return
-    end
-  end
-  vim.notify("No counterpart found next to file", vim.log.levels.WARN)
+	for _, e in ipairs(candidates) do
+		local cand = base .. "." .. e
+		if vim.loop.fs_stat(cand) then
+			vim.cmd.edit(vim.fn.fnameescape(cand))
+			return
+		end
+	end
+	vim.notify("No counterpart found next to file", vim.log.levels.WARN)
 end
 
 map("n", "<leader>gh", toggle_header_source, "Toggle header/source")
@@ -130,23 +132,22 @@ map("n", "<leader>gh", toggle_header_source, "Toggle header/source")
 -- Show diagnostics when cursor pauses
 vim.o.updatetime = 250
 vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    vim.diagnostic.open_float(nil, { focusable = false })
-  end,
+	callback = function()
+		vim.diagnostic.open_float(nil, { focusable = false })
+	end,
 })
 
--- Format Python on save
+-- Format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-  callback = function(args)
-    local bufnr = args.buf
+	callback = function(args)
+		local bufnr = args.buf
 
-    local clients = vim.lsp.get_clients({ bufnr = bufnr })
-    for _, client in ipairs(clients) do
-      if client.supports_method("textDocument/formatting") then
-        vim.lsp.buf.format({ bufnr = bufnr })
-        return
-      end
-    end
-  end,
+		local clients = vim.lsp.get_clients({ bufnr = bufnr })
+		for _, client in ipairs(clients) do
+			if client.supports_method("textDocument/formatting") then
+				vim.lsp.buf.format({ bufnr = bufnr })
+				return
+			end
+		end
+	end,
 })
-
