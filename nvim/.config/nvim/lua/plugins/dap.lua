@@ -9,6 +9,7 @@ return {
 			"theHamsta/nvim-dap-virtual-text",
 			"jay-babu/mason-nvim-dap.nvim",
 			"williamboman/mason.nvim",
+			"mfussenegger/nvim-dap-python",
 		},
 		keys = {
 			-- load on keypress; nothing loads until you hit these
@@ -117,6 +118,9 @@ return {
 
 			-- inline values
 			require("nvim-dap-virtual-text").setup()
+
+			-- Python Debugger
+			require("dap-python").setup(vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python")
 
 			-- 1) Comment out/guard VS Code launch loading (this is what reintroduces the JSON error)
 			-- Only load if a real, simple launch.json exists (no "inputs" blocks).
