@@ -3,8 +3,10 @@
 # Where plugins are installed (NOT stowed)
 ZSH_PLUGIN_DIR="$HOME/.local/share/zsh/plugins"
 
-# zsh-completions: add to fpath BEFORE compinit
-fpath=("$ZSH_PLUGIN_DIR/zsh-completions/src" $fpath)
+# Skip Docker Desktop vendor completions when Docker Desktop is not mounted
+if [[ ! -d /mnt/wsl/docker-desktop/cli-tools/usr/share/zsh/vendor-completions ]]; then
+  fpath=(${fpath:#/usr/share/zsh/vendor-completions})
+fi
 
 autoload -Uz compinit
 compinit -i

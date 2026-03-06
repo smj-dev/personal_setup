@@ -13,5 +13,6 @@ setopt INC_APPEND_HISTORY
 source "$HOME/.zsh/env.zsh"
 source "$HOME/.zsh/aliases.zsh"
 source "$HOME/.zsh/keybinds.zsh"
+source "$HOME/.zsh/completions.zsh"
 source "$HOME/.zsh/plugins.zsh"
 source "$HOME/.zsh/prompt.zsh"
