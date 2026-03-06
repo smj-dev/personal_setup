@@ -16,7 +16,7 @@ _prompt_git() {
 _prompt_exit() {
   local code="$1"
   if [[ "$code" -ne 0 ]]; then
-    print -n " %F{red}✗$code%f"
+    print -n " %F{red}$code%f"
   fi
 }
 
