@@ -7,7 +7,7 @@ source "$(dirname "$0")/scripts/constants.sh"
 echo "📜 Logging output to $LOG_FILE"
 
 usage() {
-  echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|gitk|all]"
+  echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|zhs|gitk|all]"
   exit 1
 }
 
@@ -39,6 +39,19 @@ for arg in "$@"; do
     source ~/.bashrc
     source ~/.bash_aliases
     ;;
+  zsh)
+    echo "Setting up ZShell..."
+    bash "$REPO_DIR/scripts/stow.sh" "zshell"
+
+    if [ "${SHELL:-}" != "$(command -v zsh)" ]; then
+      echo "Setting default shell to zsh."
+      sudo usermod -s "$(command -v zsh)" "$USER"
+    fi
+
+    bash "$REPO_DIR/scripts/setup_zsh_plugins.sh"
+    source ~/.zshrc
+    source ~/.zsh
+    ;;
   gitk)
     echo "Setting up gitk theme..."
     bash "$REPO_DIR/scripts/stow.sh" "gitk"
@@ -50,7 +63,7 @@ for arg in "$@"; do
     ;;
   all)
     echo "⚙️  Running full setup..."
-    bash "$REPO_DIR/scripts/install_packages.sh"
+    ba1sh "$REPO_DIR/scripts/install_packages.sh"
     bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash" "gitk"
 
     bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"
