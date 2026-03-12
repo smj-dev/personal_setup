@@ -79,7 +79,7 @@ if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
             echo "✅ $package is already installed."
         else
             echo "Installing $package..."
-            run_command "sudo apt install -y "$package"
+            run_command "sudo apt install -y "$package""
         fi
     done
 

@@ -41,7 +41,7 @@ for arg in "$@"; do
     ;;
   zsh)
     echo "Setting up ZShell..."
-    bash "$REPO_DIR/scripts/stow.sh" "zshell"
+    bash "$REPO_DIR/scripts/stow.sh" "zsh"
 
     if [ "${SHELL:-}" != "$(command -v zsh)" ]; then
       echo "Setting default shell to zsh."
