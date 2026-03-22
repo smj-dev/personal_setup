@@ -54,7 +54,13 @@ for arg in "$@"; do
     ;;
   gitk)
     echo "Setting up gitk theme..."
-    bash "$REPO_DIR/scripts/stow.sh" "gitk"
+    GITK_TARGET="$HOME/.config/git/gitk"
+
+    if [[ ! -f "$GITK_TARGET" ]]; then
+        echo "Setting up gitk config..."
+        mkdir -p "$(dirname "$GITK_TARGET")"
+        cp "$SCRIPT_DIR/gitk_config.default" "$GITK_TARGET"
+    fi
     ;;
   code)
     echo "Setting up vs code config..."
