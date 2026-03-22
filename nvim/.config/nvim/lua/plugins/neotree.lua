@@ -8,7 +8,13 @@ return {
 		"MunifTanjim/nui.nvim",
 	},
 	config = function()
-		vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>")
+		vim.keymap.set("n", "<C-n>", function()
+			require("neo-tree.command").execute({
+				toggle = true,
+				reveal = true,
+				dir = vim.fn.expand("%:p:h"),
+			})
+		end)
 
 		local function jump_tree_by_first_char(direction)
 			local ch = vim.fn.getcharstr()
