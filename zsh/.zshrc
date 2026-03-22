@@ -16,3 +16,8 @@ source "$HOME/.zsh/keybinds.zsh"
 source "$HOME/.zsh/completions.zsh"
 source "$HOME/.zsh/plugins.zsh"
 source "$HOME/.zsh/prompt.zsh"
+
+# Create local.zsh for maschine specific conf.
+if [[ -f "$HOME/.zsh/local.zsh" ]]; then
+    source "$HOME/.zsh/local.zsh"
+fi
