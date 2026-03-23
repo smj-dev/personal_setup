@@ -70,10 +70,19 @@ for arg in "$@"; do
   all)
     echo "⚙️  Running full setup..."
     bash "$REPO_DIR/scripts/install_packages.sh"
-    bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash" "gitk" "zsh"
+    bash "$REPO_DIR/scripts/stow.sh" "tmux" "nvim" "bash"  "zsh"
 
     bash "$REPO_DIR/scripts/setup_nvim_plugins.sh"
     bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
+
+    echo "Setting up gitk theme..."
+    GITK_TARGET="$HOME/.config/git/gitk"
+
+    if [[ ! -f "$GITK_TARGET" ]]; then
+        echo "Setting up gitk config..."
+        mkdir -p "$(dirname "$GITK_TARGET")"
+        cp "$SCRIPT_DIR/gitk_config.default" "$GITK_TARGET"
+    fi
     ;;
   *)
     echo "❌ Unknown option: $arg"
