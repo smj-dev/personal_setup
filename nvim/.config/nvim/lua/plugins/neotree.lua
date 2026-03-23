@@ -9,10 +9,17 @@ return {
 	},
 	config = function()
 		vim.keymap.set("n", "<C-n>", function()
+			local current_file = vim.fn.expand("%:p")
+			if current_file == "" then
+				current_file = vim.fn.getcwd()
+			end
+
 			require("neo-tree.command").execute({
 				toggle = true,
-				reveal = true,
-				dir = vim.fn.expand("%:p:h"),
+				source = "filesystem",
+				position = "left",
+				dir = vim.fn.getcwd(),
+				reveal_file = current_file,
 			})
 		end)
 
