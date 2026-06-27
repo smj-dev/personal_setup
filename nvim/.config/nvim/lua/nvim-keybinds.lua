@@ -60,6 +60,8 @@ map("i", "<M-BS>", "<C-w>", "Delete word in insert mode")
 
 -- Search ----------------------------------------------------------------
 
+map("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", "Clear search highlight")
+
 map("v", "/", function()
 	vim.cmd('normal! "vy')
 	local selected_text = vim.fn.getreg('"')
