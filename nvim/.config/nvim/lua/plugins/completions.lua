@@ -38,7 +38,7 @@ return {
 					["<C-k>"] = cmp.mapping.select_prev_item(),
 					["<C-j>"] = cmp.mapping.select_next_item(),
 					["<C-e>"] = cmp.mapping.abort(),
-					["<Tab>"] = cmp.mapping.confirm({ select = true }),
+					["<Cr>"] = cmp.mapping.confirm({ select = true }),
 				}),
 
 				sources = cmp.config.sources({
