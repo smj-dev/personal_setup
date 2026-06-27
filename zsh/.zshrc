@@ -30,3 +30,7 @@ setopt HIST_IGNORE_SPACE
 if [[ -f "$HOME/.zsh/local.zsh" ]]; then
     source "$HOME/.zsh/local.zsh"
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
