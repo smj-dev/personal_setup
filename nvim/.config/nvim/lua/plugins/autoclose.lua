@@ -1,12 +1,15 @@
 -- Autocloses brackets etc. --
-return {
-	"m4xshen/autoclose.nvim",
+-- Disabled: autoclose.nvim
 
-	config = function()
-		require("autoclose").setup({
-			keys = {
-				["$"] = { escape = true, close = true, pair = "$$", disabled_filetypes = {} },
-			},
-		})
-	end,
-}
+return {}
+-- return {
+-- 	"m4xshen/autoclose.nvim",
+--
+-- 	config = function()
+-- 		require("autoclose").setup({
+-- 			keys = {
+-- 				["$"] = { escape = true, close = true, pair = "$$", disabled_filetypes = {} },
+-- 			},
+-- 		})
+-- 	end,
+-- }
