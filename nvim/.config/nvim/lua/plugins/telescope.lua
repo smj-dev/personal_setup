@@ -61,6 +61,11 @@ return {
 			vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files (dotfiles too)" })
 			vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find symbols in file" })
 			vim.keymap.set("n", "<leader>fr", builtin.grep_string, { desc = "Grep repo (word under cursor)" })
+			vim.keymap.set("n", "<leader>fl", function()
+				builtin.current_buffer_fuzzy_find({
+					previewer = true,
+				})
+			end, { desc = "Find line in current file" })
 		end,
 	},
 	{
