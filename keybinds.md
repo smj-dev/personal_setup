@@ -88,12 +88,79 @@
 
 ### Git
 
-* **File history:** `:Gclog`
-* **Project history:** `:Gclog!`
-* **Blame current file:** `:Gblame`
-* **Diff with previous commit:** `:Gdiffsplit`
-* **Commit graph (flog):** `:Flog`
-* **Commit graph split (flog):** `:Flogsplit`
+#### Main commands
+
+* **Blame current file:** `<Space>gb`
+* **Commit graph:** `:Flog`
+* **Commit graph split:** `:Flogsplit`
+* **File history:** `:filehistory`
+* **Close review/history view:** `:reviewclose`
+
+#### Review workflow
+
+Review current working tree:
+
+```vim
+:DiffviewOpen
+```
+
+Review current branch / MR against the default base branch:
+
+```vim
+:mr
+```
+
+Default base:
+
+```text
+origin/dev/staging
+```
+
+Review current branch / MR against another base branch:
+
+```vim
+:mr origin/staging
+:mr origin/main
+:mr origin/develop
+```
+
+Review one commit:
+
+```vim
+:commit <commit-hash>
+```
+
+Equivalent raw Diffview commands, when needed:
+
+```vim
+:DiffviewOpen origin/dev/staging...HEAD
+:DiffviewOpen <commit-hash>^!
+:DiffviewFileHistory %
+:DiffviewClose
+```
+
+#### Inside review mode
+
+* **Next file:** `j`
+* **Previous file:** `k`
+* **Open selected file diff:** `<Enter>` or `o`
+* **Next change:** `gn`
+* **Previous change:** `gb`
+* **Open actual file:** `gf`
+* **Close review:** `q`
+
+#### Typical MR review
+
+```text
+git checkout <mr-branch>
+:mr
+```
+
+#### Typical commit review
+
+```text
+:commit <commit-hash>
+```
 
 ### Undo
 
