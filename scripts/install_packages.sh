@@ -29,13 +29,13 @@ record_failure() {
 
 setup_nodesource_repo() {
     if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
-        if run_command "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -"; then
+        if run_command "curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -"; then
             echo "✅ NodeSource repository configured."
         else
             record_failure "setup NodeSource repository"
         fi
     else
-        if run_command "curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -"; then
+        if run_command "curl -fsSL https://rpm.nodesource.com/setup_22.x | sudo bash -"; then
             echo "✅ NodeSource repository configured."
         else
             record_failure "setup NodeSource repository"
