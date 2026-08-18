@@ -118,6 +118,7 @@ COMMON_PACKAGES=(
     cmake
     make
     xclip
+    wl-clipboard
     bat
     python3-venv
     alsa-utils
