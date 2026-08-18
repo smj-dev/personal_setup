@@ -37,13 +37,14 @@ install_neovim() {
     INSTALLED_NVIM_VERSION="0.0.0"
   fi
 
-  LATEST_NVIM_VERSION="0.11.6"
-  if [ "$(printf '%s\n' "$LATEST_NVIM_VERSION" "$INSTALLED_NVIM_VERSION" | sort -V | head -n 1)" == "$LATEST_NVIM_VERSION" ]; then
-    echo "✅ Neovim is up to date!"
+  # Authoritative in both directions: lower this to downgrade.
+  NVIM_VERSION="0.12.4"
+  if [[ "$INSTALLED_NVIM_VERSION" == "$NVIM_VERSION" ]]; then
+    echo "✅ Neovim is already at v$NVIM_VERSION."
     return 0
   fi
 
-  echo "⚠️ Updating Neovim to v$LATEST_NVIM_VERSION..."
+  echo "⚠️ Installing Neovim v$NVIM_VERSION (was v$INSTALLED_NVIM_VERSION)..."
   ARCH=$(uname -m)
   if [[ "$ARCH" == "x86_64" ]]; then
     NVIM_FILE="nvim-linux-x86_64.tar.gz"
@@ -64,7 +65,7 @@ install_neovim() {
     run_command "sudo apt autoremove -y"
   fi
 
-  run_command "curl -L -O https://github.com/neovim/neovim/releases/latest/download/${NVIM_FILE}"
+  run_command "curl -fL -O https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/${NVIM_FILE}"
   run_command "tar xzvf $NVIM_FILE"
   run_command "sudo rm -rf /usr/local/$NVIM_DIR"
   run_command "sudo mv $NVIM_DIR /usr/local/"
@@ -72,7 +73,7 @@ install_neovim() {
   run_command "rm -f $NVIM_FILE"
   run_command "rm -rf $NVIM_DIR"
 
-  echo "✅ Neovim updated to v$LATEST_NVIM_VERSION!"
+  echo "✅ Neovim installed at v$NVIM_VERSION!"
 }
 
 install_luarocks_packages() {
@@ -110,6 +111,51 @@ install_luarocks_packages() {
   echo "🚀 All requested Luarocks packages are installed!"
 }
 
+# nvim-treesitter's main branch shells out to the tree-sitter CLI for every
+# parser it installs ("generate" then "build"), so this is a hard dependency.
+TREE_SITTER_MIN="0.26.1"
+
+treesitter_cli_ok() {
+  # Must actually run: npm ships a prebuilt binary that installs fine and then
+  # fails on older glibc, so checking the path is not enough.
+  local v
+  v=$(tree-sitter --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1) || return 1
+  [[ -n "$v" ]] || return 1
+  [[ "$(printf '%s\n' "$TREE_SITTER_MIN" "$v" | sort -V | head -n 1)" == "$TREE_SITTER_MIN" ]]
+}
+
+install_treesitter_cli() {
+  if treesitter_cli_ok; then
+    echo "✅ $(tree-sitter --version) already usable."
+    return 0
+  fi
+
+  # Prebuilt first: seconds instead of minutes, when the binary runs here.
+  if command -v npm &>/dev/null; then
+    echo "📦 Installing tree-sitter CLI via npm..."
+    npm install -g tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
+    if treesitter_cli_ok; then
+      echo "✅ $(tree-sitter --version) installed."
+      return 0
+    fi
+    echo "⚠️ npm build unusable here, falling back to building from source."
+    npm uninstall -g tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
+  fi
+
+  if command -v cargo &>/dev/null; then
+    echo "📦 Building tree-sitter CLI with cargo (a few minutes)..."
+    cargo install tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
+    if treesitter_cli_ok; then
+      echo "✅ $(tree-sitter --version) installed."
+      return 0
+    fi
+  fi
+
+  echo "❌ Could not get tree-sitter CLI >= $TREE_SITTER_MIN on PATH."
+  echo "   nvim-treesitter cannot build parsers without it. Check $LOG_FILE."
+  exit 1
+}
+
 install_neovim_plugins() {
   echo "📦 Installing Neovim plugins..."
 
@@ -131,5 +177,6 @@ install_neovim_plugins() {
 }
 
 install_neovim
+install_treesitter_cli
 install_neovim_plugins
 #install_luarocks_packages # TODO: luarocks setup on WSL may be broken

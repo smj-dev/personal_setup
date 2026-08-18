@@ -106,4 +106,7 @@ export JUCE_AUDIODEVICETYPE=PULSE
 if [[ -f "$HOME/.bashrc.local" ]]; then
     source "$HOME/.bashrc.local"
 fi
-. "$HOME/.cargo/env"
+# Only present when rust was installed via rustup.
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi

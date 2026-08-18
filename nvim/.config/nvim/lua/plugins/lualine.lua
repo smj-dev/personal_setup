@@ -4,7 +4,9 @@ return {
   config = function()
     require('lualine').setup({
       options = {
-        theme = 'catppuccin', -- or 'auto' if you prefer fallback
+        -- catppuccin ships no plain 'catppuccin' theme, so that silently fell
+        -- back to 'auto'. This one follows whichever flavour is active.
+        theme = 'catppuccin-nvim',
         section_separators = '',
         component_separators = '',
         globalstatus = true
