@@ -7,7 +7,7 @@ source "$(dirname "$0")/scripts/constants.sh"
 echo "📜 Logging output to $LOG_FILE"
 
 usage() {
-  echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|zsh|gitk|all]"
+  echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|zsh|gitk|code|all]"
   exit 1
 }
 
@@ -65,7 +65,7 @@ for arg in "$@"; do
   code)
     echo "Setting up vs code config..."
     bash "$REPO_DIR/scripts/setup_vs_code.sh"
-    bash "$REPO_DIR/scripts/stow.sh" "code"
+    bash "$REPO_DIR/scripts/vscode.sh" sync
     ;;
   all)
     echo "⚙️  Running full setup..."

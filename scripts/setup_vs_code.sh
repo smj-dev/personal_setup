@@ -1,20 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-EXTENSIONS=(
-  catppuccin.catppuccin-vsc
-  haskell.haskell
-  justusadam.language-haskell
-  ms-python.black-formatter
-  ms-python.debugpy
-  ms-python.python
-  ms-python.vscode-pylance
-  ms-python.vscode-python-envs
-  vscodevim.vim
-  yzhang.markdown-all-in-one
-)
+if command -v code >/dev/null 2>&1; then
+  echo "VS Code already present."
+  exit 0
+fi
 
-# Detect distro
 . /etc/os-release
 
 install_code_debian() {
@@ -64,9 +55,4 @@ rhel | centos | almalinux | rocky | fedora)
   ;;
 esac
 
-# install extensions
-for ext in "${EXTENSIONS[@]}"; do
-  code --install-extension "$ext" --force >/dev/null
-done
-
-echo "VS Code + extensions installed."
+echo "VS Code installed."

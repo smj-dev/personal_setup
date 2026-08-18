@@ -49,7 +49,7 @@ for package in "$@"; do
       backup_existing "$target_dir/$relative_path"
     done
 
-    run_command "stow -v -d $package_dir -t $target_dir .config"
+    run_command "stow -v --no-folding -d $package_dir -t $target_dir .config"
   else
     target_dir="$HOME"
 
@@ -60,7 +60,7 @@ for package in "$@"; do
       backup_existing "$target_dir/$file_name"
     done
 
-    run_command "stow -v -d $package_dir -t $target_dir ."
+    run_command "stow -v --no-folding -d $package_dir -t $target_dir ."
   fi
 
   echo "✅ Successfully ran Stow for $package!"

@@ -1,0 +1,10 @@
+catppuccin.catppuccin-vsc
+haskell.haskell
+justusadam.language-haskell
+ms-python.black-formatter
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
+ms-python.vscode-python-envs
+vscodevim.vim
+yzhang.markdown-all-in-one

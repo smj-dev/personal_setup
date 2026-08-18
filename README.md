@@ -25,6 +25,10 @@ Options for setup.sh:
   Stow Neovim configuration and install Neovim plugins.
 * `bash`
   Stow bash configuration and reload `.bashrc` and `.bash_aliases`.
+* `zsh`
+  Stow zsh configuration, install plugins, and set zsh as the default shell.
+* `code`
+  Install VS Code if missing, then sync settings, keybindings, and extensions.
 * `gitk`
   Apply gitk theme configuration.
 * `all`
@@ -96,7 +100,50 @@ The file includes:
 To update settings without installing packages:
 
 ```bash
-./scripts/stow.sh [nvim|tmux|bash|gitk]
+./scripts/stow.sh [nvim|tmux|bash|zsh|gitk]
 ```
+
+Stow is invoked with `--no-folding`, so every package produces per-file symlinks.
+Without it, stow collapses a package into a single directory symlink pointing into
+this repo, and anything the application writes into that directory lands in git.
+
+---
+
+## VS Code
+
+VS Code rewrites `settings.json` and `keybindings.json` itself, so those files are
+**generated** rather than stowed. Three layers feed into them:
+
+| Layer | Location | Tracked |
+| --- | --- | --- |
+| Baseline | `code/settings.base.jsonc`, `code/keybindings.base.jsonc`, `code/extensions.txt` | yes |
+| Machine overlay | `~/.config/personal_setup/vscode/*.local.json`, `extensions.local.txt` | no |
+| Snapshot | `~/.config/personal_setup/vscode/.*.snapshot.json` | no |
+
+The snapshot records what was last generated, which makes it the common ancestor for
+a three-way merge. On every sync anything that differs between the snapshot and the
+live file must have come from this machine, so it is captured into the overlay first
+and the result is regenerated from baseline + overlay. Changes made through the VS
+Code UI therefore persist, and pulling a new baseline updates every key this machine
+has not claimed.
+
+```bash
+./scripts/vscode.sh sync            # capture local changes, then regenerate
+./scripts/vscode.sh status          # what this machine overrides, and extension drift
+./scripts/vscode.sh forget <key>    # drop an override so the baseline applies again
+./scripts/vscode.sh target          # print the resolved VS Code User directory
+```
+
+The target directory is detected for native Linux, macOS, Git Bash on Windows, and
+WSL driving a Windows-host VS Code. Set `VSCODE_USER_DIR` in `~/.bashrc.local` or
+`~/.zsh/local.zsh` to override it.
+
+Extensions are the union of `code/extensions.txt` and the machine's
+`extensions.local.txt` — put things you only want on some machines, such as Copilot,
+in the local list. Nothing is ever uninstalled; `status` reports anything installed
+that is on neither list so you can decide where it belongs.
+
+To promote a local override to every machine, move it into the baseline file by hand
+and run `forget` on that machine so it stops shadowing.
 
 
