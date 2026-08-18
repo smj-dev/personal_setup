@@ -37,4 +37,8 @@ if vim.uv.fs_stat(localPlugins) then
 	vim.list_extend(specs, dofile(localPlugins))
 end
 
-require("lazy").setup(specs)
+-- Keep the lockfile out of the stowed config, otherwise every plugin update
+-- shows up as a repo change. scripts/nvim_lock.sh saves a known good copy.
+require("lazy").setup(specs, {
+	lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+})

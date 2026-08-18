@@ -109,6 +109,31 @@ this repo, and anything the application writes into that directory lands in git.
 
 ---
 
+## Neovim plugins
+
+Plugin versions are deliberately **not** tracked. lazy.nvim's lockfile lives at
+`~/.local/share/nvim/lazy-lock.json`, outside the repo (`init.lua` sets `lockfile`),
+so `:Lazy update` can never show up as a repo change and a fresh machine installs
+whatever is current.
+
+What is tracked is `nvim/lazy-lock.known-good.json` — a backup you update only when
+you want to, not a pin you have to maintain:
+
+```bash
+./scripts/nvim_lock.sh save     # bless the current versions once you have used them
+./scripts/nvim_lock.sh restore  # put them back and check the plugins out, when an update breaks nvim
+```
+
+`restore` copies the known good lockfile into place and runs `:Lazy! restore`, so it
+actually downgrades the installed plugins rather than only rewriting a file. It keeps
+the lockfile it replaced as `lazy-lock.json.before-restore` in case the rollback was
+the mistake.
+
+The file is not under `nvim/.config/`, because anything there gets stowed into
+`~/.config/nvim` and would become the live lockfile again.
+
+---
+
 ## gitk
 
 gitk stores window geometry in its own config file and rewrites it on exit, so the
