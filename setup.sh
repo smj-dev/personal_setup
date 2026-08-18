@@ -6,6 +6,29 @@ source "$(dirname "$0")/scripts/constants.sh"
 >"$LOG_FILE" # Reset log file at the beginning
 echo "📜 Logging output to $LOG_FILE"
 
+# gitk owns its config once installed (it writes window geometry back to it), so
+# an existing file is the machine's, not ours. Asking is enough: the user ran this.
+install_gitk_config() {
+  local target="$HOME/.config/git/gitk"
+  local reply=""
+
+  if [[ -f "$target" ]]; then
+    if [[ ! -t 0 ]]; then
+      echo "⚠️  $target exists and there is no terminal to confirm on, keeping it."
+      return 0
+    fi
+    read -rp "⚠️  $target already exists. Overwrite? [y/N] " reply || reply=""
+    if [[ ! "$reply" =~ ^[Yy]$ ]]; then
+      echo "Keeping the existing gitk config."
+      return 0
+    fi
+  fi
+
+  mkdir -p "$(dirname "$target")"
+  cp "$SCRIPT_DIR/gitk_config.default" "$target"
+  echo "✅ Installed gitk config to $target"
+}
+
 usage() {
   echo "Usage: $(basename "$0") [packages|tmux|nvim|bash|zsh|gitk|code|all]"
   exit 1
@@ -54,13 +77,7 @@ for arg in "$@"; do
     ;;
   gitk)
     echo "Setting up gitk theme..."
-    GITK_TARGET="$HOME/.config/git/gitk"
-
-    if [[ ! -f "$GITK_TARGET" ]]; then
-        echo "Setting up gitk config..."
-        mkdir -p "$(dirname "$GITK_TARGET")"
-        cp "$SCRIPT_DIR/gitk_config.default" "$GITK_TARGET"
-    fi
+    install_gitk_config
     ;;
   code)
     echo "Setting up vs code config..."
@@ -76,13 +93,7 @@ for arg in "$@"; do
     bash "$REPO_DIR/scripts/setup_tmux_plugins.sh"
 
     echo "Setting up gitk theme..."
-    GITK_TARGET="$HOME/.config/git/gitk"
-
-    if [[ ! -f "$GITK_TARGET" ]]; then
-        echo "Setting up gitk config..."
-        mkdir -p "$(dirname "$GITK_TARGET")"
-        cp "$SCRIPT_DIR/gitk_config.default" "$GITK_TARGET"
-    fi
+    install_gitk_config
     ;;
   *)
     echo "❌ Unknown option: $arg"

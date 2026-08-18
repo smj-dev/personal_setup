@@ -30,7 +30,7 @@ Options for setup.sh:
 * `code`
   Install VS Code if missing, then sync settings, keybindings, and extensions.
 * `gitk`
-  Apply gitk theme configuration.
+  Install the default gitk config, asking first if the machine already has one.
 * `all`
   Run the full setup: install packages, stow configs, and set up plugins.
 
@@ -106,6 +106,26 @@ To update settings without installing packages:
 Stow is invoked with `--no-folding`, so every package produces per-file symlinks.
 Without it, stow collapses a package into a single directory symlink pointing into
 this repo, and anything the application writes into that directory lands in git.
+
+---
+
+## gitk
+
+gitk stores window geometry in its own config file and rewrites it on exit, so the
+file is not stowed — stowing it is what made window-size diffs ride along in
+unrelated commits. Instead `scripts/gitk_config.default` is copied to
+`~/.config/git/gitk`, and from then on the machine owns that file.
+
+Running `./setup.sh gitk` again will offer to overwrite it — it is an explicit
+command, so it is allowed to replace the machine's copy, but it asks first because
+doing so discards whatever gitk has saved there. Answering no keeps the existing
+file; with no terminal to ask on, it keeps the existing file and says so.
+
+To push a theme change out, edit `scripts/gitk_config.default`, commit, and run
+`./setup.sh gitk` on the machines you want updated. The default deliberately
+contains no `geometry(*)` or `permviews` lines so gitk picks its own on first run.
+
+Only `gitk/.config/git/ignore` is stowed, since git never writes to it.
 
 ---
 

@@ -48,6 +48,9 @@ site/
 # Ingore repos downloaded by install script
 tmux/.tmux/plugins
 
+# gitk rewrites its config on exit; it is generated, never tracked
+gitk/.config/git/gitk
+
 # Ignore build artifacts
 qmk/build
 qmk2/build
