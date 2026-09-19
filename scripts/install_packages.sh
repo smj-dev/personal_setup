@@ -91,6 +91,28 @@ install_with_pip() {
     fi
 }
 
+# --add-to-path no: the installer would append to the stowed ~/.bashrc and ~/.zshrc.
+install_juliaup() {
+    if command -v juliaup >/dev/null 2>&1 || [[ -x "$HOME/.juliaup/bin/juliaup" ]]; then
+        echo "✅ juliaup is already installed."
+    else
+        echo "Installing juliaup..."
+        if ! run_command "curl -fsSL https://install.julialang.org | sh -s -- --yes --add-to-path no"; then
+            record_failure "install juliaup"
+            return 1
+        fi
+        echo "✅ Installed juliaup and the current Julia release."
+    fi
+
+    # julia-lsp's SymbolServer does not precompile on 1.13, so the server runs on lts
+    # (JULIAUP_CHANNEL in lsp_config.lua). Everything else uses the default channel.
+    if run_command "\"$HOME/.juliaup/bin/juliaup\" add lts"; then
+        echo "✅ Julia lts channel available."
+    else
+        record_failure "add julia lts channel"
+    fi
+}
+
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
 else
@@ -180,6 +202,8 @@ else
     echo "❌ Unsupported distribution: $ID"
     exit 1
 fi
+
+install_juliaup
 
 echo
 

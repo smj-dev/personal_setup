@@ -24,6 +24,7 @@ MASON_PACKAGES=(
   clang-format
   cmakelang
   checkmake
+  julia-lsp
 )
 
 LUAROCKS_PACKAGES=("jsregexp") # Add more packages as needed

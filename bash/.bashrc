@@ -93,6 +93,7 @@ PROMPT_COMMAND=update_prompt
 # Add custom paths
 export PATH="$PATH:/opt/nvim/"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.juliaup/bin"
 
 export EDITOR=vim
 export VISUAL=vim

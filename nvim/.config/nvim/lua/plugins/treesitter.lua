@@ -2,10 +2,10 @@
 -- The main branch dropped the module system of master: parsers are installed
 -- explicitly, and highlighting and indenting are Neovim's own, enabled per
 -- filetype. Needs Neovim 0.12 and the tree-sitter CLI.
-local parsers = { "lua", "c", "cmake", "python", "cpp", "markdown", "markdown_inline" }
+local parsers = { "lua", "c", "cmake", "python", "cpp", "julia", "markdown", "markdown_inline" }
 
 -- markdown_inline is only ever injected, so it has no filetype of its own.
-local filetypes = { "lua", "c", "cmake", "python", "cpp", "markdown" }
+local filetypes = { "lua", "c", "cmake", "python", "cpp", "julia", "markdown" }
 
 return {
   {

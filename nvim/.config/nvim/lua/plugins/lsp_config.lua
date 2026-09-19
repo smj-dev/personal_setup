@@ -10,7 +10,7 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "clangd", "html", "pyright", "bashls" },
+				ensure_installed = { "lua_ls", "clangd", "html", "pyright", "bashls", "julials" },
 			})
 		end,
 	},
@@ -65,7 +65,13 @@ return {
 
 			vim.lsp.config("bashls", { capabilities = capabilities })
 
-			vim.lsp.enable({ "clangd", "html", "lua_ls", "pyright", "bashls" })
+			-- julia-lsp's SymbolServer does not precompile on 1.13; run it on lts.
+			vim.lsp.config("julials", {
+				capabilities = capabilities,
+				cmd_env = { JULIAUP_CHANNEL = "lts" },
+			})
+
+			vim.lsp.enable({ "clangd", "html", "lua_ls", "pyright", "bashls", "julials" })
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP Hover" })
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP Goto Definition" })
