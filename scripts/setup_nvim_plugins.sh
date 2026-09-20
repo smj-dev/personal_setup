@@ -132,15 +132,17 @@ install_treesitter_cli() {
   fi
 
   # Prebuilt first: seconds instead of minutes, when the binary runs here.
+  # The global npm prefix (/usr from the NodeSource install) is root-owned, so
+  # -g needs sudo; without it npm dies with EACCES before the binary is tested.
   if command -v npm &>/dev/null; then
     echo "📦 Installing tree-sitter CLI via npm..."
-    npm install -g tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
+    sudo npm install -g tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
     if treesitter_cli_ok; then
       echo "✅ $(tree-sitter --version) installed."
       return 0
     fi
     echo "⚠️ npm build unusable here, falling back to building from source."
-    npm uninstall -g tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
+    sudo npm uninstall -g tree-sitter-cli >>"$LOG_FILE" 2>&1 || true
   fi
 
   if command -v cargo &>/dev/null; then

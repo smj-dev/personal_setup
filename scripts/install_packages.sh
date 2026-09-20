@@ -75,19 +75,27 @@ install_package_rhel() {
     fi
 }
 
-install_with_pip() {
+install_with_pipx() {
     local package="$1"
 
-    if python3 -m pip show "$package" >/dev/null 2>&1; then
-        echo "✅ $package is already installed via pip."
+    if ! command -v pipx >/dev/null 2>&1; then
+        record_failure "pipx not available to install $package"
+        return 1
+    fi
+
+    if pipx list --short 2>/dev/null | grep -q "^$package "; then
+        echo "✅ $package is already installed via pipx."
         return 0
     fi
 
-    echo "Installing $package with pip..."
-    if run_command "python3 -m pip install --user \"$package\""; then
-        echo "✅ Installed $package via pip."
+    # Ensure pipx's bin dir is on PATH for future shells (idempotent).
+    run_command "pipx ensurepath"
+
+    echo "Installing $package with pipx..."
+    if run_command "pipx install \"$package\""; then
+        echo "✅ Installed $package via pipx."
     else
-        record_failure "install pip package $package"
+        record_failure "install pipx package $package"
     fi
 }
 
@@ -133,6 +141,7 @@ COMMON_PACKAGES=(
     zsh
     python3
     python3-pip
+    pipx
     nodejs
     cargo
     clang
@@ -180,7 +189,7 @@ if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
         install_package_debian "$package"
     done
 
-    install_with_pip "jrnl"
+    install_with_pipx "jrnl"
 
 elif [[ "$ID" == "almalinux" || "$ID" == "rhel" || "$ID" == "centos" || "$ID" == "fedora" ]]; then
     echo "📦 Running dnf update..."
@@ -196,7 +205,7 @@ elif [[ "$ID" == "almalinux" || "$ID" == "rhel" || "$ID" == "centos" || "$ID" ==
         install_package_rhel "$package"
     done
 
-    install_with_pip "jrnl"
+    install_with_pipx "jrnl"
 
 else
     echo "❌ Unsupported distribution: $ID"
